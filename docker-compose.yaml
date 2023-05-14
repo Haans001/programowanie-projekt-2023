@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  frontend:
+    image: node:16-alpine
+    container_name: prog-front
+    working_dir: /app
+    networks:
+      - network
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./app:/app
+      - frontend_node_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm run dev"
+
+volumes:
+  frontend_node_modules:
+
+networks:
+  network:
+    driver: bridge
