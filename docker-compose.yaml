@@ -27,9 +27,24 @@ services:
     ports:
       - "5000:5000"
     command: sh -c "dotnet restore && dotnet watch run --urls=http://0.0.0.0:5000"
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    container_name: prog-db
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - prog_db:/var/lib/mysql
 
 volumes:
   frontend_node_modules:
+  prog_db:
 
 networks:
   network:
