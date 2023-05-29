@@ -19,7 +19,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_ACCESS_TOKEN }}
           github-comment: false
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-args: "-A app/vercel.json"
+          vercel-args: "-A app/vercel.json --prod"
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
       - name: preview-url
         run: |
