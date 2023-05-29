@@ -1,0 +1,26 @@
+name: Deploy prod
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: Deploy web
+        id: web-deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+          github-comment: false
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-args: "-A app/vercel.json"
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: preview-url
+        run: |
+          echo ${{ steps.web-deploy.outputs.preview-url }}
