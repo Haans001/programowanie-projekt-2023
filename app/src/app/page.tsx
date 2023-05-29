@@ -20,6 +20,7 @@ export default function Home() {
 
   return (
     <div className="m-6">
+      <h1>GÓWNO</h1>
       <Formik
         initialValues={{
           firstName: "",

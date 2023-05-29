@@ -1,21 +1,24 @@
-name: Vercel Preview Deployment
+name: Deploy preview
 
 on:
   pull_request:
     branches:
-      - "*"
+      - "main"
     types: [opened, synchronize]
 
 jobs:
-  Deploy-Preview:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_ACCESS_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_ACCESS_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_ACCESS_TOKEN }}
+      - uses: ./app
+        id: vercel-action
+        with:
+          vercel-token: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+          github-comment: false
+          vercel-org-id: nvCGfeFwl6TFmDBC02P3di0D
+          vercel-args: "-A app/vercel.json"
+          vercel-project-id: prj_LzMFljI4QanLq9Z5pp1zmhQX9zBQ
+      - name: preview-url
+        run: |
+          echo ${{ steps.vercel-action.outputs.preview-url }}
