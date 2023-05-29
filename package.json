@@ -1,0 +1,20 @@
+{
+  "name": "projekt-programowanie-2023",
+  "version": "1.0.0",
+  "description": "Quiz app",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "cd app && npm install && cd ../api && dotnet restore",
+    "dev": "docker-compose up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haans001/programowanie-projekt-2023.git"
+  },
+  "author": "Jan Rapacz, Wiktor Rzeznicki, Jakub Wajstak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Haans001/programowanie-projekt-2023/issues"
+  },
+  "homepage": "https://github.com/Haans001/programowanie-projekt-2023#readme"
+}
