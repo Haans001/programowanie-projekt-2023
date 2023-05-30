@@ -16,6 +16,7 @@ public class QuizDbContext : DbContext
     public DbSet<Quiz> Quizzes { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<Answer> Answers { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,6 +28,12 @@ public class QuizDbContext : DbContext
             opt.Property(a => a.LastName).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<Role>(opt =>
+        {
+            opt.Property(r => r.Name).HasMaxLength(50)
+                .IsRequired();
+        });
+        
         modelBuilder.Entity<Quiz>(opt =>
         {
             opt.Property(q => q.Name).HasMaxLength(50);
