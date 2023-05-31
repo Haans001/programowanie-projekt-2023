@@ -18,11 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<QuizDbContext>( options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-
 // Add services to the container.
-
 
 var  MyAllowSpecificOrigins = "frontend_connection";
 builder.Services.AddCors(options =>
@@ -58,11 +54,16 @@ builder.Services.AddAuthentication(option =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenicationSettings.JwtKey))
     };
 });
+
+
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IAccountService,AccountService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+builder.Services.AddScoped<IValidator<LoginDto>, LoginUserDtoValidator>();
 builder.Services.AddSingleton(authenicationSettings);
+
+
 var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 

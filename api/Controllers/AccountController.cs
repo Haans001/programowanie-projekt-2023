@@ -1,6 +1,7 @@
 ﻿using api.DatabaseContext;
 using api.Models.Dto;
 using api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -17,6 +18,7 @@ public class AccountController : ControllerBase
         _accountService = accountService;
     }
     [HttpGet("roles")]
+    [Authorize]
     public IActionResult GetRoles()
     {
 
@@ -32,6 +34,6 @@ public class AccountController : ControllerBase
     public IActionResult Login([FromBody] LoginDto loginDto)
     {
         var token = _accountService.GenerateJwt(loginDto);
-        return Ok(token);
+        return Ok(token );
     }
 }
