@@ -7,4 +7,5 @@ public interface IAccountService
 {
     void RegisterUser(RegisterUserDto registerUserDto);
     ICollection<Role> GetRoles();
+    object GenerateJwt(LoginDto loginDto);
 }

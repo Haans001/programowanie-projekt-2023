@@ -23,7 +23,7 @@ public class QuizDbContext : DbContext
         modelBuilder.Entity<User>(opt =>
         {
             opt.Property(a => a.Email).HasMaxLength(50);
-            opt.Property(a => a.Password).HasMaxLength(50);
+            opt.Property(a => a.Password).HasColumnName("PasswordHash").HasMaxLength(150);
             opt.Property(a => a.FirstName).HasMaxLength(50);
             opt.Property(a => a.LastName).HasMaxLength(50);
         });
