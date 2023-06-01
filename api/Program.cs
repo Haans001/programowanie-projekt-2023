@@ -1,14 +1,18 @@
 using System.Text;
 using api;
+using api.Authorization;
 using api.DatabaseContext;
 using api.Middlewares;
 using api.Models.Dto;
+using api.Models.Dto.Account;
 using api.Models.Entities;
 using api.Models.Validators;
 using api.Services;
 using api.Services.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,10 +61,16 @@ builder.Services.AddAuthentication(option =>
 
 
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAccountService,AccountService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginDto>, LoginUserDtoValidator>();
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 builder.Services.AddSingleton(authenicationSettings);
 
 

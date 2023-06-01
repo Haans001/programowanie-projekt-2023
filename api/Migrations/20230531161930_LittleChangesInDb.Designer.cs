@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using api.DatabaseContext;
@@ -11,9 +12,10 @@ using api.DatabaseContext;
 namespace api.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    partial class QuizDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230531161930_LittleChangesInDb")]
+    partial class LittleChangesInDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,7 +115,7 @@ namespace api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("isOpen")
@@ -226,7 +228,7 @@ namespace api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ClassUser", (string)null);
+                    b.ToTable("ClassUser");
                 });
 
             modelBuilder.Entity("api.Models.Entities.Answer", b =>
@@ -257,7 +259,9 @@ namespace api.Migrations
 
                     b.HasOne("api.Models.Entities.User", "User")
                         .WithMany("Quizzes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Class");
 

@@ -1,5 +1,7 @@
-﻿using api.DatabaseContext;
+﻿using System.Security.Claims;
+using api.DatabaseContext;
 using api.Models.Dto;
+using api.Models.Dto.Account;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +27,12 @@ public class AccountController : ControllerBase
         return Ok(_accountService.GetRoles());
     }
     [HttpPost("register")]
+    [Authorize]
     public IActionResult RegisterUser(RegisterUserDto registerUserDto)
     {
+        var userid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         _accountService.RegisterUser(registerUserDto);  
-        return Ok();
+        return Ok(userid);
     }
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDto loginDto)

@@ -20,6 +20,10 @@ public class QuizDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Class>().HasMany(x => x.Users).WithMany(y => y.Classes)
+            .UsingEntity(j => j.ToTable("ClassUser"));
+        
+        
         modelBuilder.Entity<User>(opt =>
         {
             opt.Property(a => a.Email).HasMaxLength(50);
