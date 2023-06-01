@@ -1,5 +1,6 @@
 ﻿using api.DatabaseContext;
 using api.Models.Dto;
+using api.Models.Dto.Account;
 using FluentValidation;
 
 namespace api.Models.Validators;
