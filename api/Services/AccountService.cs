@@ -4,8 +4,10 @@ using System.Text;
 using api.DatabaseContext;
 using api.Exceptions;
 using api.Models.Dto;
+using api.Models.Dto.Account;
 using api.Models.Entities;
 using api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,12 +18,14 @@ public class AccountService : IAccountService
 { 
     private readonly QuizDbContext _context;
     private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly IAuthorizationService _authorizationService;
     private readonly AuthenticationSettings _authenicationSettings;
 
-    public AccountService(QuizDbContext context,IPasswordHasher<User> passwordHasher,AuthenticationSettings _authenicationSettings)
+    public AccountService(QuizDbContext context,IPasswordHasher<User> passwordHasher,AuthenticationSettings _authenicationSetting,IAuthorizationService authorizationService)
     {
         _context = context;
         _passwordHasher = passwordHasher;
+        _authorizationService = authorizationService;
         this._authenicationSettings = _authenicationSettings;
     }
 
@@ -75,5 +79,15 @@ public class AccountService : IAccountService
             signingCredentials: creds);
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
+    }
+
+    public void UpdateUser(int id, UpdateUserDto updateUserDto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteUser(int id)
+    {
+        throw new NotImplementedException();
     }
 }
