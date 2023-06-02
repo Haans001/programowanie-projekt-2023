@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, use, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import "../app/globals.css";
 
 const LoginForm = () => {
@@ -7,6 +8,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   const handleCheckboxChange = () => {
     setShowPassword(!showPassword);
@@ -23,6 +26,10 @@ const LoginForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(email, password);
+    if (email && password) {
+      //uwierzytelnianie
+      router.push(".home");
+    }
   };
 
   return (
@@ -41,7 +48,7 @@ const LoginForm = () => {
             value={email}
             onChange={handleEmailChange}
             placeholder="Email"
-            className="w-2/3 outline-none p-4 border-2 border-gray-200"
+            className="w-2/3 outline-none p-2 border-2 border-gray-200"
           />
           <input
             type={showPassword ? "text" : "password"}
@@ -50,7 +57,7 @@ const LoginForm = () => {
             value={password}
             onChange={handlePasswordChange}
             placeholder="Password"
-            className="w-2/3 outline-none p-4 border-2 border-gray-200"
+            className="w-2/3 outline-none p-2 border-2 border-gray-200"
           />
           <div className="w-2/3">
             <label
