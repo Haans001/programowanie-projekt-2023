@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, use, useState } from "react";
-import Link from "next/link";
 import "../app/globals.css";
 
 const LoginForm = () => {
@@ -28,7 +27,7 @@ const LoginForm = () => {
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-gray-200">
       <div className="w-1/4 h-content bg-white px-2 py-4">
-        <h1 className="text-center text-3xl py-8">Logowanie</h1>
+        <h1 className="text-center text-3xl py-8">Rejestracja</h1>
         <form
           action=""
           className="w-full h-full flex flex-col justify-center gap-4 items-center"
@@ -75,9 +74,7 @@ const LoginForm = () => {
             value="Zaloguj sie"
             className="w-2/3 outline-none p-4 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl"
           />
-          <p>
-            Nie masz konta? <Link href="./register">Zarejestruj sie </Link>
-          </p>
+          <p>Nie masz konta? Zarejestruj sie</p>
         </form>
       </div>
     </div>
