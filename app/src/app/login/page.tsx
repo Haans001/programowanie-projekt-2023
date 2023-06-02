@@ -1,7 +1,7 @@
+"use client";
 import { ChangeEvent, FormEvent, use, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import "../app/globals.css";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
