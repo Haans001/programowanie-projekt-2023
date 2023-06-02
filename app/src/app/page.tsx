@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -32,7 +31,7 @@ const LandingPage = () => {
           </Link>
         </section>
         <section className="w-1/2">
-          <Image src={heroImage} alt="" />
+          <Image src={heroImage} alt="students photo" />
         </section>
       </main>
     </div>
