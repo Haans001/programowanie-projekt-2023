@@ -61,6 +61,7 @@ builder.Services.AddAuthentication(option =>
 
 
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddSingleton(authenicationSettings);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<IQuizService, QuizService>();
@@ -71,7 +72,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginDto>, LoginUserDtoValidator>();
 builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
-builder.Services.AddSingleton(authenicationSettings);
+
 
 
 var app = builder.Build();

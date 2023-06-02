@@ -10,7 +10,7 @@ public class User
      public string Password { get; set; }
      public virtual Role Role { get; set; }
      public int RoleId { get; set; }
-     public virtual ICollection<Score> Scores { get; set; }
-     public virtual ICollection<Quiz> Quizzes { get; set; }
-     public virtual ICollection<Class> Classes { get; set; }
+     public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
+     public virtual ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
+     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 }

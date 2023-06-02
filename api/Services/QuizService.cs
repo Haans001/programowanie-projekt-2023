@@ -48,18 +48,21 @@ public class QuizService : IQuizService
             Name = createQuizDto.Name,
             ClassId = createQuizDto.ClassId,
             isOpen = true,
-            DateOfCreation = DateTime.Now,
+            DateOfCreation = DateTime.UtcNow,
             UserId = _userContextService.GetUserId
         };
+        _context.Quizzes.Add(newQuiz);
+        _context.SaveChanges();
     }
-
-    public void UpdateQuiz(int id, UpdateQuizDto updateQuizDto)
-    {
-        throw new NotImplementedException();
-    }
-
+    
     public void DeleteQuiz(int id)
     {
-        throw new NotImplementedException();
+        var quizToDelete = _context.Quizzes.FirstOrDefault(q => q.Id == id);
+        if (quizToDelete is null)
+        {
+            throw new NotFoundException("Quiz not found");
+        }
+        _context.Quizzes.Remove(quizToDelete);
+        _context.SaveChanges();
     }
 }

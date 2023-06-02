@@ -39,9 +39,24 @@ public class ClassService : IClassService
     public int CreateClass(CreateClassDto createClassDto)
     {
         var newClass = _mapper.Map<Class>(createClassDto);
+        var user = _context.Users.FirstOrDefault(u => u.Id == _userContextService.GetUserId);
+        newClass.Users.Add(user);
         _context.Classes.Add(newClass);
         _context.SaveChanges();
         return newClass.Id;
+    }
+
+    public void AddUserToClass(AddUserToClass addUserToClass)
+    {
+        var user = _context.Users.FirstOrDefault(u=>u.Id==addUserToClass.UserId);   
+        var classs = _context.Classes.FirstOrDefault(c=>c.Id==addUserToClass.ClassId);
+        if(user is null || classs is null)
+        {
+            throw new NotFoundException("user or class not found");
+        }
+
+        classs.Users.Add(user);
+        _context.SaveChanges();
     }
 
     public void UpdateClass(int id, UpdateClassDto updateClassDto)

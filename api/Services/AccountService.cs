@@ -21,12 +21,12 @@ public class AccountService : IAccountService
     private readonly IAuthorizationService _authorizationService;
     private readonly AuthenticationSettings _authenicationSettings;
 
-    public AccountService(QuizDbContext context,IPasswordHasher<User> passwordHasher,AuthenticationSettings _authenicationSetting,IAuthorizationService authorizationService)
+    public AccountService(QuizDbContext context,IPasswordHasher<User> passwordHasher,AuthenticationSettings authenicationSetting,IAuthorizationService authorizationService)
     {
         _context = context;
         _passwordHasher = passwordHasher;
         _authorizationService = authorizationService;
-        this._authenicationSettings = _authenicationSettings;
+        this._authenicationSettings = authenicationSetting;
     }
 
     public void RegisterUser(RegisterUserDto registerUserDto)

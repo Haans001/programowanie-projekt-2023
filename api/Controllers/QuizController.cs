@@ -44,12 +44,6 @@ public class QuizController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("id")]
-    public IActionResult UpdateQuiz([FromBody] UpdateQuizDto updateQuizDto, [FromRoute] int id)
-    {
-        _quizService.UpdateQuiz(id,updateQuizDto);
-        return NoContent();
-    }
 
     [HttpDelete("id")]
     public IActionResult DeleteQuiz([FromRoute] int id)
