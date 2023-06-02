@@ -1,67 +1,24 @@
-"use client";
-import { Field, Form, Formik } from "formik";
 import * as React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import "./globals.css";
+import heroImage from "../assets/hero-image.jpg";
+import MainSection from "@/components/MainSection";
 
-interface WeatherForecastItem {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
-
-export default function Home() {
-  const [data, setData] = React.useState<WeatherForecastItem[]>([]);
-
-  React.useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + "/WeatherForecast")
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, []);
-
+const LandingPage = () => {
   return (
-    <div className="m-6">
-      <h1>GÓWNO</h1>
-      <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-        }}
-        onSubmit={async (values) => {
-          await new Promise((r) => setTimeout(r, 500));
-          alert(JSON.stringify(values, null, 2));
-        }}
-      >
-        <Form>
-          <label htmlFor="firstName">First Name</label>
-          <Field id="firstName" name="firstName" placeholder="Jane" />
-
-          <label htmlFor="lastName">Last Name</label>
-          <Field id="lastName" name="lastName" placeholder="Doe" />
-
-          <label htmlFor="email">Email</label>
-          <Field
-            id="email"
-            name="email"
-            placeholder="jane@acme.com"
-            type="email"
-          />
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
-
-      <div className="mt-8 flex flex-col gap-6">
-        {data?.map((item) => (
-          <div
-            key={item.date}
-            className="border border-solid border-blue-600 rounded-md p-4 flex flex-col gap-2"
-          >
-            <p className="text-2xl font-bold">{item.summary}</p>
-            <span>Farenheit: {item.temperatureF}</span>
-            <span>Celcius: {item.temperatureC}</span>
-          </div>
-        ))}
+    <div className="w-screen h-screen bg-white">
+      <div className="w-screen flex justify-between items-center p-4">
+        <h1 className="text-4xl font-medium">QuizApp</h1>
+        <Link href="/login">
+          <button className="w-1/10 outline-none py-2 px-6 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl">
+            Zaloguj się
+          </button>
+        </Link>
       </div>
+      <MainSection />
     </div>
   );
-}
+};
+
+export default LandingPage;
