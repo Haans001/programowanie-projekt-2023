@@ -1,8 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import "./globals.css";
-import heroImage from "../assets/hero-image.jpg";
 import MainSection from "@/components/MainSection";
 
 const LandingPage = () => {
