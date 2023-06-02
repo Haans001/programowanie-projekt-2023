@@ -8,6 +8,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showEmptyInputError, setShowEmptyInputError] = useState(false);
 
   const router = useRouter();
 
@@ -28,7 +29,9 @@ const LoginForm = () => {
     console.log(email, password);
     if (email && password) {
       //uwierzytelnianie
-      router.push(".home");
+      router.push("./home");
+    } else {
+      setShowEmptyInputError(true);
     }
   };
 
@@ -75,6 +78,11 @@ const LoginForm = () => {
               Show Password
             </label>
           </div>
+          {showEmptyInputError ? (
+            <p className="text-red-500">Prosze uzupełnić wszystkie pola</p>
+          ) : (
+            ""
+          )}
           <input
             type="submit"
             name="submit"
