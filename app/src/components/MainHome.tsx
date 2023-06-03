@@ -1,6 +1,7 @@
 import { BsSearch } from "react-icons/bs";
 import QuizList from "./QuizList";
 import { IQuizzies } from "@/types";
+import { ChangeEvent, useState } from "react";
 
 const MainHome = () => {
   //PRZYKLADOWE DANE
@@ -17,6 +18,12 @@ const MainHome = () => {
     { id: 9, name: "RNA", subject: "Biologia" },
   ];
 
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
   return (
     <div className="bg-gray-200 w-full h-[90%] p-4">
       <div className=" w-1/3 flex items-center">
@@ -30,13 +37,25 @@ const MainHome = () => {
           <input
             type="text"
             id="searchQuiz"
+            value={searchInput}
             className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg w-full pl-10 p-2 "
             placeholder="Wyszukaj quiz"
+            onChange={handleSearchInputChange}
             required
           />
         </div>
       </div>
-      <QuizList quizzies={quizzies} />
+      <QuizList
+        quizzies={quizzies.filter(
+          (quiz) =>
+            quiz.name
+              .toLocaleLowerCase()
+              .includes(searchInput.toLocaleLowerCase()) ||
+            quiz.subject
+              .toLocaleLowerCase()
+              .includes(searchInput.toLocaleLowerCase())
+        )}
+      />
     </div>
   );
 };
