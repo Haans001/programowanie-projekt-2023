@@ -6,12 +6,9 @@ const QuizList = ({ quizzies }: IQuizList) => {
   return (
     <div className="my-4 grid grid-cols-5 gap-8">
       {quizzies.map((quiz: any) => (
-        <Quiz
-          key={quiz.id}
-          id={quiz.id}
-          name={quiz.name}
-          subject={quiz.subject}
-        />
+        <div key={quiz.id} className="col-span-1">
+          <Quiz id={quiz.id} name={quiz.name} subject={quiz.subject} />
+        </div>
       ))}
     </div>
   );

@@ -25,37 +25,39 @@ const MainHome = () => {
   };
 
   return (
-    <div className="bg-gray-200 w-full h-[90%] p-4">
-      <div className=" w-1/3 flex items-center">
-        <label htmlFor="searchQuiz" className="sr-only">
-          Search
-        </label>
-        <div className="relative w-full">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-            <BsSearch className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+    <div className="w-full h-[90%] bg-gray-200">
+      <div className="w-[90%] mx-auto p-4">
+        <div className=" w-1/3 flex items-center">
+          <label htmlFor="searchQuiz" className="sr-only">
+            Search
+          </label>
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <BsSearch className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </div>
+            <input
+              type="text"
+              id="searchQuiz"
+              value={searchInput}
+              className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg w-full pl-10 p-2 "
+              placeholder="Wyszukaj quiz"
+              onChange={handleSearchInputChange}
+              required
+            />
           </div>
-          <input
-            type="text"
-            id="searchQuiz"
-            value={searchInput}
-            className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg w-full pl-10 p-2 "
-            placeholder="Wyszukaj quiz"
-            onChange={handleSearchInputChange}
-            required
-          />
         </div>
+        <QuizList
+          quizzies={quizzies.filter(
+            (quiz) =>
+              quiz.name
+                .toLocaleLowerCase()
+                .includes(searchInput.toLocaleLowerCase()) ||
+              quiz.subject
+                .toLocaleLowerCase()
+                .includes(searchInput.toLocaleLowerCase())
+          )}
+        />
       </div>
-      <QuizList
-        quizzies={quizzies.filter(
-          (quiz) =>
-            quiz.name
-              .toLocaleLowerCase()
-              .includes(searchInput.toLocaleLowerCase()) ||
-            quiz.subject
-              .toLocaleLowerCase()
-              .includes(searchInput.toLocaleLowerCase())
-        )}
-      />
     </div>
   );
 };

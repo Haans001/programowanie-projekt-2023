@@ -2,7 +2,7 @@ import { IQuizzies } from "@/types";
 
 const Quiz = ({ id, name, subject }: IQuizzies) => {
   return (
-    <div className="flex flex-col justify-between  bg-white p-4">
+    <div className="flex flex-col justify-between bg-white p-4 h-40">
       <div>
         <h2 className="text-xl">{name}</h2>
         <p>{subject}</p>
