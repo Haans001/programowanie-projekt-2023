@@ -47,7 +47,7 @@ const Navbar = () => {
         onClick={handleNavbarClose}
         className={`${
           isNavbarClosed ? "block" : "hidden"
-        } absolute top-[15%] bg-[#618cfb] hover:bg-[#426bd3] p-2 rounded-r-full`}
+        } fixed top-32 bg-[#618cfb] hover:bg-[#426bd3] p-2 rounded-r-full`}
       >
         <BiRightArrowAlt className="text-2xl" />
       </button>
