@@ -7,6 +7,7 @@ using api.Models.Dto;
 using api.Models.Dto.Account;
 using api.Models.Entities;
 using api.Services.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,14 +20,29 @@ public class AccountService : IAccountService
     private readonly QuizDbContext _context;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IMapper _mapper;
+    private readonly IUserContextService _userContextService;
     private readonly AuthenticationSettings _authenicationSettings;
 
-    public AccountService(QuizDbContext context,IPasswordHasher<User> passwordHasher,AuthenticationSettings authenicationSetting,IAuthorizationService authorizationService)
+    public AccountService(QuizDbContext context,IPasswordHasher<User> passwordHasher,AuthenticationSettings authenicationSetting,IAuthorizationService authorizationService,IMapper mapper, IUserContextService userContextService)
     {
         _context = context;
         _passwordHasher = passwordHasher;
         _authorizationService = authorizationService;
+        _mapper = mapper;
+        _userContextService = userContextService;
         this._authenicationSettings = authenicationSetting;
+    }
+
+    public GetAccountDto GetAccount()
+    {
+        var existingUser = _context.Users.Include(u=>u.Role)
+            .FirstOrDefault(u=>u.Id==_userContextService.GetUserId);
+        if (existingUser is null)
+        {
+            throw new NotFoundException("user not found");
+        }
+        return _mapper.Map<GetAccountDto>(existingUser);
     }
 
     public void RegisterUser(RegisterUserDto registerUserDto)
@@ -83,11 +99,38 @@ public class AccountService : IAccountService
 
     public void UpdateUser(int id, UpdateUserDto updateUserDto)
     {
-        throw new NotImplementedException();
+        var userToUpdate = _context.Users.FirstOrDefault(u => u.Id == id);
+        if (userToUpdate is null)
+        {
+            throw new NotFoundException("user not found");
+        }
+        _mapper.Map(updateUserDto,userToUpdate);
+        _context.SaveChanges();
     }
 
     public void DeleteUser(int id)
     {
-        throw new NotImplementedException();
+        var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
+        if (existingUser is null)
+        {
+            throw new NotFoundException("user not found");
+        }
+
+        _context.Users.Remove(existingUser);
+        _context.SaveChanges();
+    }
+
+    public void AddUsertoClass(int classId)
+    {
+        var user = _context.Users.FirstOrDefault(u=>u.Id==_userContextService.GetUserId);   
+            var classs = _context.Classes.FirstOrDefault(c=>c.Id==classId);
+            if(user is null || classs is null)
+            {
+                throw new NotFoundException("user or class not found");
+            }
+
+            classs.Users.Add(user);
+            _context.SaveChanges();
+        
     }
 }

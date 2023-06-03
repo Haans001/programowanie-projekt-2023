@@ -34,13 +34,7 @@ public class ClassController : ControllerBase
         var cid = _classService.CreateClass(createClassDto);
         return Created($"/api/restaurant/{cid}",null);
     }
-    [HttpPost("AddUser")]
-    public IActionResult AddUserToClass([FromBody] AddUserToClass addUserToClass)
-    {
-        _classService.AddUserToClass(addUserToClass);
-        return Ok();
-    }
-    
+
     [HttpPut("{id}")]
     public IActionResult UpdateClass([FromRoute] int id, [FromBody] UpdateClassDto updateClassDto)
     {

@@ -64,6 +64,7 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSingleton(authenicationSettings);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IQuestionService,QuestionService>();
 builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();

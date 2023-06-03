@@ -1,4 +1,8 @@
-﻿using api.Models.Dto.Class;
+﻿using api.Models.Dto.Account;
+using api.Models.Dto.Answer;
+using api.Models.Dto.Class;
+using api.Models.Dto.Question;
+using api.Models.Dto.Role;
 using api.Models.Entities;
 using AutoMapper;
 
@@ -16,7 +20,29 @@ public class MappingProfiles : Profile
         CreateMap<GetClassDto, Class>();
         #endregion
 
+        #region Role
+        CreateMap<Role, GetRoleDto>();
+        #endregion
 
+        #region User
+        CreateMap<User, GetAccountDto>();
+        #endregion
+
+        #region Question
+
+        CreateMap<Question, GetQuestionDto>()
+            .ForMember(dest=>dest.AnswersDtos,src=>src.MapFrom(x=>x.Answers))
+            .ForMember(dest=>dest.Content ,src=>src.MapFrom(x=>x.Contents));
+        CreateMap<CreateQuestionDto, Question>();
+        CreateMap<UpdateQuestionDto, Question>();
+        CreateMap<GetQuestionDto, Question>();
+        #endregion
+
+        #region Answer
+
+        CreateMap<Answer, GetAnswerDto>();
+
+        #endregion
 
     }
 }
