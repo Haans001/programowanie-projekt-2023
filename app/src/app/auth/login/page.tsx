@@ -2,10 +2,10 @@
 import { TextInputField } from "@/components/forms";
 import { pages } from "@/helpers/pages";
 import { Formik } from "formik";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import * as React from "react";
 import * as Yup from "yup";
 
 interface LoginFormValues {
@@ -14,7 +14,7 @@ interface LoginFormValues {
 }
 
 const LoginPage: NextPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const router = useRouter();
 

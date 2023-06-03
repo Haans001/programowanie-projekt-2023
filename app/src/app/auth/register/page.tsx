@@ -3,7 +3,7 @@ import { TextInputField } from "@/components/forms";
 import { pages } from "@/helpers/pages";
 import { RoleEnum } from "@/types";
 import { Formik } from "formik";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import Link from "next/link";
 import * as Yup from "yup";
 
