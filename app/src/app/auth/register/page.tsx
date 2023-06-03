@@ -1,36 +1,38 @@
 "use client";
+import { _register } from "@/api/auth-api";
 import { TextInputField } from "@/components/forms";
 import { pages } from "@/helpers/pages";
 import { RoleEnum } from "@/types";
+import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 
-interface RegisterFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmedPassword: string;
-  role: RoleEnum;
-}
-
 const RegisterPage: NextPage = () => {
-  const handleSubmit = (values: RegisterFormValues) => {
-    console.log(values);
-  };
+  const router = useRouter();
+
+  const { mutate: register, isLoading } = useMutation({
+    mutationFn: _register,
+    onSuccess: async () => {
+      router.replace(pages.dashboard.home.path);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   return (
     <>
       <h1 className="text-center text-3xl py-8">Rejestracja</h1>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          confirmedPassword: "",
+          firstName: "jan",
+          lastName: "ra",
+          email: "rapacz@gmail.com",
+          password: "jasiu123",
+          confirmPassword: "jasiu123",
           role: RoleEnum.Student,
         }}
         validationSchema={Yup.object().shape({
@@ -40,7 +42,7 @@ const RegisterPage: NextPage = () => {
             .email("Niepoprawny email")
             .required("Pole wymagane"),
           password: Yup.string().required("Pole wymagane"),
-          confirmedPassword: Yup.string().test(
+          confirmPassword: Yup.string().test(
             "passwords-match",
             "Hasła muszą być takie same",
             function (value) {
@@ -48,7 +50,7 @@ const RegisterPage: NextPage = () => {
             }
           ),
         })}
-        onSubmit={handleSubmit}
+        onSubmit={register}
       >
         {({ handleSubmit, values, setFieldValue }) => (
           <form
@@ -86,7 +88,7 @@ const RegisterPage: NextPage = () => {
               className="w-4/5"
             />
             <TextInputField
-              name="confirmedPassword"
+              name="confirmPassword"
               type="password"
               placeholder="Powtórz hasło"
               className="w-4/5"
@@ -131,6 +133,7 @@ const RegisterPage: NextPage = () => {
               </div>
             </div>
             <button
+              disabled={isLoading}
               type="submit"
               className="w-2/3 outline-none p-4 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl"
             >

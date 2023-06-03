@@ -9,6 +9,14 @@ const authPages = {
   },
 };
 
+const dashboardPages = {
+  home: {
+    title: "Home",
+    path: "/home",
+  },
+};
+
 export const pages = {
   auth: authPages,
+  dashboard: dashboardPages,
 };

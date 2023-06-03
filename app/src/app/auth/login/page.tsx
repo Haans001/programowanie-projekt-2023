@@ -1,6 +1,9 @@
 "use client";
+import { _login } from "@/api/auth-api";
 import { TextInputField } from "@/components/forms";
+import { AUTH_TOKEN_NAME } from "@/config/constants";
 import { pages } from "@/helpers/pages";
+import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
 import type { NextPage } from "next";
 import Link from "next/link";
@@ -8,24 +11,25 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import * as Yup from "yup";
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
 const LoginPage: NextPage = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-
-  const router = useRouter();
 
   const handleCheckboxChange = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (values: LoginFormValues) => {
-    console.log(values);
-  };
+  const router = useRouter();
 
+  const { mutate: login, isLoading } = useMutation({
+    mutationFn: _login,
+    onSuccess: async (token) => {
+      localStorage.setItem(AUTH_TOKEN_NAME, token);
+      router.replace(pages.dashboard.home.path);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
   return (
     <>
       <h1 className="text-center text-3xl py-8">Logowanie</h1>
@@ -40,7 +44,7 @@ const LoginPage: NextPage = () => {
             .required("Pole wymagane"),
           password: Yup.string().required("Pole wymagane"),
         })}
-        onSubmit={handleSubmit}
+        onSubmit={login}
       >
         {({ handleSubmit }) => (
           <form
@@ -76,6 +80,7 @@ const LoginPage: NextPage = () => {
               </label>
             </div>
             <button
+              disabled={isLoading}
               type="submit"
               value="Zaloguj sie"
               className="w-2/3 outline-none p-4 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl"
