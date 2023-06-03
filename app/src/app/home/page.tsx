@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
+import MainHome from "@/components/MainHome";
 import Navbar from "@/components/Navbar";
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
       <Navbar />
       <div className="w-full h-screen">
         <Header />
+        <MainHome />
       </div>
     </div>
   );
