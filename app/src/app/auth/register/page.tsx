@@ -135,7 +135,7 @@ const RegisterPage: NextPage = () => {
             <button
               disabled={isLoading}
               type="submit"
-              className="w-2/3 outline-none p-4 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl"
+              className="w-2/3 outline-none p-4 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl hover:bg-[#618cfb]"
             >
               Zarejestruj się
             </button>

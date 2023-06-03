@@ -15,7 +15,7 @@ const MainSection = () => {
           Twoim niezawodnym przewodnikiem do sukcesu edukacyjnego!
         </p>
         <Link href={pages.auth.register.path}>
-          <button className="w-1/10 outline-none py-2 px-6 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl">
+          <button className="w-1/10 outline-none py-2 px-6 bg-[#66d1f2] hover:bg-[#618cfb] cursor-pointer font-medium text-white text-xl">
             Dołącz do nas
           </button>
         </Link>

@@ -9,7 +9,7 @@ const LandingPage = () => {
       <div className="w-screen flex justify-between items-center p-4">
         <h1 className="text-4xl font-medium">QuizApp</h1>
         <Link href={pages.auth.login.path}>
-          <button className="w-1/10 outline-none py-2 px-6 bg-[#66d1f2] cursor-pointer font-medium text-white text-xl">
+          <button className="w-1/10 outline-none py-2 px-6 bg-[#49c7ee] hover:bg-[#618cfb] cursor-pointer font-medium text-white text-xl">
             Zaloguj się
           </button>
         </Link>
