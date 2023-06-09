@@ -16,7 +16,7 @@ const RegisterPage: NextPage = () => {
   const { mutate: register, isLoading } = useMutation({
     mutationFn: _register,
     onSuccess: async () => {
-      router.replace(pages.dashboard.home.path);
+      router.replace(pages.auth.login.path);
     },
     onError: (error) => {
       console.log(error);

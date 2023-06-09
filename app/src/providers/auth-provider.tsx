@@ -6,9 +6,9 @@ import { pages } from "@/helpers/pages";
 import { useAxios } from "@/hooks/use-axios";
 import type { RoleEnum } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import * as React from "react";
-
 interface Props {
   children: React.ReactNode;
 }
@@ -43,34 +43,24 @@ const AuthProvider: React.FunctionComponent<Props> = ({ children }) => {
 
   const axios = useAxios();
 
-  const pathname = usePathname();
-
   const { replace } = useRouter();
-
-  const isPublicPage =
-    pathname === pages.auth.login.path ||
-    pathname === pages.auth.register.path ||
-    pathname === pages.public.landing.path;
 
   useQuery({
     queryKey: ["userData"],
     queryFn: () => _getUser(axios),
     onSuccess: (data) => {
       setUser(data);
-      if (isPublicPage) {
-        replace(pages.dashboard.home.path);
-      }
       setLoaded(true);
     },
     onError: () => {
+      Cookies.remove(AUTH_TOKEN_NAME);
       replace(pages.auth.login.path);
-      setLoaded(true);
     },
   });
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem(AUTH_TOKEN_NAME);
+    Cookies.remove(AUTH_TOKEN_NAME);
     replace(pages.auth.login.path);
   };
 

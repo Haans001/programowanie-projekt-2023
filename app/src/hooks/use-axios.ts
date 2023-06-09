@@ -1,8 +1,9 @@
 import { AUTH_TOKEN_NAME } from "@/config/constants";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const getToken = () => {
-  const token = localStorage.getItem(AUTH_TOKEN_NAME);
+  const token = Cookies.get(AUTH_TOKEN_NAME);
   if (!token) {
     throw new Error("No token found");
   }

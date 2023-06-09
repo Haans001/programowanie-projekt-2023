@@ -1,5 +1,6 @@
 "use client";
 import { pages } from "@/helpers/pages";
+import { useAuth } from "@/providers/auth-provider";
 import Link from "next/link";
 import { useState } from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
@@ -12,6 +13,8 @@ const Navbar = () => {
   const handleNavbarClose = () => {
     setIsNavbarClosed(!isNavbarClosed);
   };
+
+  const { logout } = useAuth();
 
   return (
     <>
@@ -46,7 +49,10 @@ const Navbar = () => {
               </h3>
             </li>
           </ul>
-          <button className="w-1/10 outline-none py-2 px-6 bg-[#618cfb] hover:bg-[#426bd3] cursor-pointer font-medium text-white text-xl">
+          <button
+            onClick={logout}
+            className="w-1/10 outline-none py-2 px-6 bg-[#618cfb] hover:bg-[#426bd3] cursor-pointer font-medium text-white text-xl"
+          >
             Wyloguj się
           </button>
         </div>

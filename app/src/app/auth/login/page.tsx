@@ -5,6 +5,7 @@ import { AUTH_TOKEN_NAME } from "@/config/constants";
 import { pages } from "@/helpers/pages";
 import { useMutation } from "@tanstack/react-query";
 import { Formik } from "formik";
+import Cookies from "js-cookie";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,8 +24,10 @@ const LoginPage: NextPage = () => {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: _login,
     onSuccess: async (token) => {
-      localStorage.setItem(AUTH_TOKEN_NAME, token);
-      router.replace(pages.dashboard.home.path);
+      Cookies.set(AUTH_TOKEN_NAME, token, {
+        expires: 30,
+      });
+      router.push(pages.dashboard.home.path);
     },
     onError: (error) => {
       console.log(error);
