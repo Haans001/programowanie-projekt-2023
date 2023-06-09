@@ -1,8 +1,10 @@
-import { MdQuiz } from "react-icons/md";
-import { FiUsers } from "react-icons/fi";
-import { MdClose } from "react-icons/md";
-import { BiRightArrowAlt } from "react-icons/bi";
+"use client";
+import { pages } from "@/helpers/pages";
+import Link from "next/link";
 import { useState } from "react";
+import { BiRightArrowAlt } from "react-icons/bi";
+import { FiUsers } from "react-icons/fi";
+import { MdClose, MdQuiz } from "react-icons/md";
 
 const Navbar = () => {
   const [isNavbarClosed, setIsNavbarClosed] = useState(false);
@@ -16,7 +18,7 @@ const Navbar = () => {
       <nav
         className={`${
           isNavbarClosed ? "hidden" : "block"
-        } h-screen w-[12%] py-4 bg-[#29348e]`}
+        } h-screen w-72 py-4 bg-[#29348e]`}
       >
         <div className="text-right h-[10%] pr-4">
           <button onClick={handleNavbarClose}>
@@ -35,6 +37,12 @@ const Navbar = () => {
               <FiUsers className="text-2xl text-gray-400 group-hover:text-white " />
               <h3 className="text-lg text-gray-200 group-hover:text-white font-medium ">
                 Użytkownicy
+              </h3>
+            </li>
+            <li className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#618cfb] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+              <FiUsers className="text-2xl text-gray-400 group-hover:text-white " />
+              <h3 className="text-lg text-gray-200 group-hover:text-white font-medium">
+                <Link href={pages.dashboard.classes.path}>Moje klasy</Link>
               </h3>
             </li>
           </ul>

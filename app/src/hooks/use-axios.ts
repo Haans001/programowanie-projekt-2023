@@ -12,7 +12,7 @@ const getToken = () => {
 export const useAxios = () => {
   //   const { getToken } = useAuth();
   const instance = axios.create({
-    baseURL: process.env.API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
   });
 
   instance.interceptors.request.use(

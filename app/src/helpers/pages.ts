@@ -9,14 +9,26 @@ const authPages = {
   },
 };
 
+const publicPages = {
+  landing: {
+    title: "Landing",
+    path: "/",
+  },
+};
+
 const dashboardPages = {
   home: {
     title: "Home",
-    path: "/home",
+    path: "/dashboard/home",
+  },
+  classes: {
+    title: "Klasy",
+    path: "/dashboard/classes",
   },
 };
 
 export const pages = {
+  public: publicPages,
   auth: authPages,
   dashboard: dashboardPages,
 };

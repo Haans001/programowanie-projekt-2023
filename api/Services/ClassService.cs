@@ -46,8 +46,6 @@ public class ClassService : IClassService
         return newClass.Id;
     }
 
-
-
     public void UpdateClass(int id, UpdateClassDto updateClassDto)
     {
         var existingClass = _context.Classes.FirstOrDefault(c => c.Id == id);

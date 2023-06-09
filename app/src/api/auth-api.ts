@@ -1,5 +1,6 @@
+import { User } from "@/providers/auth-provider";
 import type { RoleEnum } from "@/types";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 export interface SignupRequestBody {
   firstName: string;
@@ -29,4 +30,10 @@ export const _login = async (data: LoginRequestBody): Promise<string> => {
   });
 
   return response.data as string;
+};
+
+export const _getUser = async (axios: AxiosInstance): Promise<User> => {
+  const response = await axios.get("/Account/me");
+
+  return response.data;
 };
