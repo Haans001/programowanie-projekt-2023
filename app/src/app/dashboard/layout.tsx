@@ -11,9 +11,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <AuthProvider>
       <div className="flex">
         <Navbar />
-        <div className="w-full h-screen">
+        <div className="w-full ml-72">
           <Header />
-          <div className="w-full bg-gray-200 h-full p-6">{children}</div>
+          <div className="w-full bg-gray-200 h-full p-6 min-h-[calc(100vh-64px)]">
+            {children}
+          </div>
         </div>
       </div>
     </AuthProvider>
