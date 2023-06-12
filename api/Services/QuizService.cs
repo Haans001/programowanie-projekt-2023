@@ -13,12 +13,14 @@ public class QuizService : IQuizService
     private readonly QuizDbContext _context;
     private readonly IUserContextService _userContextService;
     private readonly IMapper _mapper;
+    private readonly IQuestionService _questionService;
 
-    public QuizService(QuizDbContext context,IUserContextService userContextService,IMapper mapper)
+    public QuizService(QuizDbContext context,IUserContextService userContextService,IMapper mapper,IQuestionService questionService)
     {
         _context = context;
         _userContextService = userContextService;
         _mapper = mapper;
+        _questionService = questionService;
     }
     
     public ICollection<GetQuizDto> GetAllQuizzes()
@@ -53,6 +55,10 @@ public class QuizService : IQuizService
         };
         _context.Quizzes.Add(newQuiz);
         _context.SaveChanges();
+        foreach (var question in createQuizDto.Questions)
+        {
+            _questionService.CreateQuestion(question, newQuiz.Id);
+        }
     }
     
     public void DeleteQuiz(int id)

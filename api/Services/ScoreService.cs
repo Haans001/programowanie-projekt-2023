@@ -35,7 +35,7 @@ public class ScoreService : IScoreService
         }
         return _mapper.Map<GetScoreDto>(score);
     }
-
+    
     public void CreateScore(AddScoreDto addScoreDto)
     {
         var score = _mapper.Map<Score>(addScoreDto);
