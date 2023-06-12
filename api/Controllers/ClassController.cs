@@ -25,7 +25,12 @@ public class ClassController : ControllerBase
     {
         return Ok(_classService.GetClassById(id));
     }
-
+    
+    [HttpGet("me")]
+    public ActionResult<IEnumerable<GetClassDto>> GetQuizzesForUser()
+    {
+        return Ok(_classService.GetClassesForUser());
+    }
     
     
     [HttpPost("create")]

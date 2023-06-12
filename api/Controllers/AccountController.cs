@@ -17,6 +17,7 @@ public class AccountController : ControllerBase
     {
         _accountService = accountService;
     }
+    
     [HttpGet("me")]
     [Authorize]
     public IActionResult Me()
@@ -27,22 +28,25 @@ public class AccountController : ControllerBase
     
     [HttpGet("roles")]
     public IActionResult GetRoles()
-    {
+    {   
 
         return Ok(_accountService.GetRoles());
     }
+    
     [HttpPost("register")]
     public IActionResult RegisterUser(RegisterUserDto registerUserDto)
     {
         _accountService.RegisterUser(registerUserDto);  
         return Ok();
     }
+    
     [HttpPost("Class/{classid}")]
     public IActionResult AddUsertoClass([FromRoute] int classid)
     {
         _accountService.AddUsertoClass(classid);  
         return Ok();
     }
+    
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDto loginDto)
     {

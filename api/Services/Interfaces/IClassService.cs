@@ -9,4 +9,5 @@ public interface IClassService
     int CreateClass(CreateClassDto createClassDto);
     void UpdateClass(int id, UpdateClassDto updateClassDto);
     void DeleteClass(int id);
-}
+    ICollection<GetUserClasses> GetClassesForUser();
+} 

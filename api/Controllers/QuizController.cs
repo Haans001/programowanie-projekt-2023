@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using api.Models.Dto;
+using api.Models.Dto.Class;
 using api.Models.Dto.Question;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,8 @@ public class QuizController : ControllerBase
         _questionService = questionService;
     }
     
+
+
     [HttpGet] 
     public IActionResult GetAllQuizzes()
     {

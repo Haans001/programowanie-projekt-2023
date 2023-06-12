@@ -3,6 +3,7 @@ using api.Models.Dto.Answer;
 using api.Models.Dto.Class;
 using api.Models.Dto.Question;
 using api.Models.Dto.Role;
+using api.Models.Dto.ScoreDto;
 using api.Models.Entities;
 using AutoMapper;
 
@@ -14,7 +15,9 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         #region Class
-        CreateMap<Class, GetClassDto>();
+
+        CreateMap<Class, GetClassDto>().ForMember(a => a.UsersDtos, src => src.MapFrom(x => x.Users));
+        CreateMap<Class, GetUserClasses>();
         CreateMap<CreateClassDto, Class>();
         CreateMap<UpdateClassDto, Class>();
         CreateMap<GetClassDto, Class>();
@@ -44,5 +47,9 @@ public class MappingProfiles : Profile
 
         #endregion
 
+        #region Score
+        CreateMap<Score, GetScoreDto>();
+        CreateMap<AddScoreDto, Score>();
+        #endregion
     }
 }

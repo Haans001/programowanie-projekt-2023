@@ -8,5 +8,5 @@ public class Score
     public virtual Quiz Quiz { get; set; }
     public int QuizId { get; set; }
     public virtual User User { get; set; }
-    public int UserId { get; set; }
-}
+    public int? UserId { get; set; }
+}  
