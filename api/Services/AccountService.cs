@@ -128,9 +128,7 @@ public class AccountService : IAccountService
             {
                 throw new NotFoundException("user or class not found");
             }
-
             classs.Users.Add(user);
             _context.SaveChanges();
-        
     }
 }
