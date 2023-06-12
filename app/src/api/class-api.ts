@@ -14,7 +14,7 @@ export const _addClass = async (
   return response.data;
 };
 
-interface Classes {
+interface Class {
   id: number;
   name: string;
   description: string;
@@ -22,8 +22,17 @@ interface Classes {
 
 export const _getAllClasses = async (
   axios: AxiosInstance
-): Promise<Classes[]> => {
+): Promise<Class[]> => {
   const response = await axios.get("/Class");
+
+  return response.data;
+};
+
+export const _getClass = async (
+  axios: AxiosInstance,
+  id: number
+): Promise<Class> => {
+  const response = await axios.get(`/Class/${id}`);
 
   return response.data;
 };

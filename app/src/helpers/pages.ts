@@ -25,6 +25,14 @@ const dashboardPages = {
     title: "Klasy",
     path: "/dashboard/classes",
   },
+  class: {
+    title: "Klasa",
+    path: "/dashboard/classes/",
+  },
+  addQuiz: {
+    title: "Dodaj quiz",
+    path: "/dashboard/add-quiz/",
+  },
 };
 
 export const pages = {

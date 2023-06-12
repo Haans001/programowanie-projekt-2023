@@ -3,9 +3,11 @@ import { _getAllClasses } from "@/api/class-api";
 import Button from "@/components/button";
 import AddClassModalContent from "@/components/modal/add-class-modal-content";
 import BaseModal from "@/components/modal/base-modal";
+import { pages } from "@/helpers/pages";
 import { useAxios } from "@/hooks/use-axios";
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
+import Link from "next/link";
 import * as React from "react";
 
 const ClassesPage: NextPage = () => {
@@ -45,7 +47,9 @@ const ClassesPage: NextPage = () => {
             <h1 className="text-xl font-bold">{c.name}</h1>
             <p className="text-sm">{c.description}</p>
             <div className="mt-4">
-              <Button>Edytuj</Button>
+              <Link href={pages.dashboard.class.path + c.id}>
+                <Button>Edytuj</Button>
+              </Link>
             </div>
           </div>
         ))}

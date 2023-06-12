@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`${
+        className={`fixed ${
           isNavbarClosed ? "hidden" : "block"
         } h-screen w-72 py-4 bg-[#29348e]`}
       >
