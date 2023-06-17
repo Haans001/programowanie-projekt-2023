@@ -1,11 +1,11 @@
-name: Deploy prod
+name: Deploy Web
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  deploy-prod:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
