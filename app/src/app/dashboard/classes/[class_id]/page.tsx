@@ -15,7 +15,7 @@ const ClassPage: NextPage = () => {
   const axios = useAxios();
 
   const { data: classData } = useQuery({
-    queryKey: ["classes"],
+    queryKey: ["class"],
     queryFn: () => _getClass(axios, Number(params.class_id)),
   });
 
