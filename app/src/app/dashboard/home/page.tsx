@@ -1,8 +1,8 @@
+"use client";
 import QuizList from "@/components/quiz-list";
 import type { IQuizzies } from "@/types";
-import { BsSearch } from "react-icons/bs";
-
 import * as React from "react";
+import { BsSearch } from "react-icons/bs";
 
 const quizzies: IQuizzies[] = [
   { id: 0, name: "Algorytmy i struktury danych", subject: "Informatyka" },
