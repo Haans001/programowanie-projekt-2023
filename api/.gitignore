@@ -1,5 +1,5 @@
 /bin/
 /obj/
-/dist/
+/dist
 appsettings.Development.json
 appsettings.json
