@@ -1,6 +1,9 @@
 "use client";
+import { _createQuiz } from "@/api/quiz-api";
 import Button from "@/components/button";
 import { TextInputField } from "@/components/forms";
+import { useAxios } from "@/hooks/use-axios";
+import { useMutation } from "@tanstack/react-query";
 import { Field, FieldArray, Formik } from "formik";
 import * as Yup from "yup";
 
@@ -22,14 +25,47 @@ type Values = {
 };
 
 const QuizForm = () => {
+  const currentURL = window.location.href;
+  const id = currentURL.split("/").pop();
+
   const initialValues = {
+    classId: `${id}`,
     name: "",
     questions: [emptyQuestion],
   };
 
-  const handleSubmit = (values: Values) => {
-    // Handle form submission
-    console.log(values);
+  const axios = useAxios();
+
+  const { isLoading, mutate: addQuiz } = useMutation({
+    mutationFn: (data: any) => _createQuiz(axios, data),
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleSubmit = async (values: Values) => {
+    const reqBody = {
+      name: values.name,
+      classId: id,
+      questions: values.questions.map((q: any) => {
+        return {
+          content: q.question,
+          answer1: q.answers[0],
+          isCorrect1: q.answers[0] == q.answers[q.correctAnswer],
+          answer2: q.answers[1],
+          isCorrect2: q.answers[1] == q.answers[q.correctAnswer],
+          answer3: q.answers[2],
+          isCorrect3: q.answers[2] == q.answers[q.correctAnswer],
+          answer4: q.answers[3],
+          isCorrect4: q.answers[3] == q.answers[q.correctAnswer],
+        };
+      }),
+    };
+
+    addQuiz(reqBody);
   };
 
   const validationSchema = Yup.object().shape({
@@ -139,7 +175,7 @@ const QuizForm = () => {
                 </>
               )}
             </FieldArray>
-            <Button type="submit" className="mt-10">
+            <Button type="submit" className="mt-10" disabled={isLoading}>
               Zatwierdź i dodaj quiz
             </Button>
           </form>

@@ -5,3 +5,11 @@ export const _getClassQuizzes = async (axios: AxiosInstance, id: number) => {
 
   return response.data;
 };
+
+export const _createQuiz = async (axios: AxiosInstance, values: any) => {
+  const response = await axios.post("/Quiz/create", values, {
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+  });
+
+  return response.data;
+};
