@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import type { AxiosInstance } from "axios";
 
 export const _getClassQuizzes = async (axios: AxiosInstance, id: number) => {
   const response = await axios.get(`/Quiz/${id}/Class`);
@@ -6,8 +6,11 @@ export const _getClassQuizzes = async (axios: AxiosInstance, id: number) => {
   return response.data;
 };
 
-export const _createQuiz = async (values: any) => {
+export const _createQuiz = async (axios: AxiosInstance, values: any) => {
+  console.log("hujan");
   const response = await axios.post("/Quiz/create", values, {
     baseURL: process.env.NEXT_PUBLIC_API_URL,
   });
+
+  return response.data;
 };

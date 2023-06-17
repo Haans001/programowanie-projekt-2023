@@ -1,11 +1,11 @@
 "use client";
+import { _createQuiz } from "@/api/quiz-api";
 import Button from "@/components/button";
 import { TextInputField } from "@/components/forms";
+import { useAxios } from "@/hooks/use-axios";
+import { useMutation } from "@tanstack/react-query";
 import { Field, FieldArray, Formik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { _createQuiz } from "@/api/quiz-api";
 
 const emptyQuestion = {
   question: "",
@@ -34,10 +34,20 @@ const QuizForm = () => {
     questions: [emptyQuestion],
   };
 
-  const handleSubmit = async (values: Values) => {
-    //console.log(values);
+  const axios = useAxios();
 
-    const values2 = {
+  const { isLoading, mutate: addQuiz } = useMutation({
+    mutationFn: (data: any) => _createQuiz(axios, data),
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleSubmit = async (values: Values) => {
+    const reqBody = {
       name: values.name,
       classId: id,
       questions: values.questions.map((q: any) => {
@@ -54,16 +64,8 @@ const QuizForm = () => {
         };
       }),
     };
-    console.log(values2);
 
-    try {
-      const response = await axios.post("/Quiz/create", values2, {
-        baseURL: process.env.NEXT_PUBLIC_API_URL,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+    addQuiz(reqBody);
   };
 
   const validationSchema = Yup.object().shape({
@@ -173,7 +175,7 @@ const QuizForm = () => {
                 </>
               )}
             </FieldArray>
-            <Button type="submit" className="mt-10">
+            <Button type="submit" className="mt-10" disabled={isLoading}>
               Zatwierdź i dodaj quiz
             </Button>
           </form>
