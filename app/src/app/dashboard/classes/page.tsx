@@ -1,6 +1,7 @@
 "use client";
 import { _getAllClasses } from "@/api/class-api";
 import Button from "@/components/button";
+import Card from "@/components/card";
 import AddClassModalContent from "@/components/modal/add-class-modal-content";
 import BaseModal from "@/components/modal/base-modal";
 import { pages } from "@/helpers/pages";
@@ -43,15 +44,11 @@ const ClassesPage: NextPage = () => {
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
         {data?.map((c) => (
-          <div className="rounded-lg p-4 bg-white">
-            <h1 className="text-xl font-bold">{c.name}</h1>
-            <p className="text-sm">{c.description}</p>
-            <div className="mt-4">
-              <Link href={pages.dashboard.class.path + c.id}>
-                <Button>Edytuj</Button>
-              </Link>
-            </div>
-          </div>
+          <Card title={c.name} description={c.description} key={c.id}>
+            <Link href={pages.dashboard.class.path + c.id}>
+              <Button>Edytuj</Button>
+            </Link>
+          </Card>
         ))}
       </div>
     </div>
