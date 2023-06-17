@@ -3,6 +3,9 @@ import Button from "@/components/button";
 import { TextInputField } from "@/components/forms";
 import { Field, FieldArray, Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { _createQuiz } from "@/api/quiz-api";
 
 const emptyQuestion = {
   question: "",
@@ -22,14 +25,45 @@ type Values = {
 };
 
 const QuizForm = () => {
+  const currentURL = window.location.href;
+  const id = currentURL.split("/").pop();
+
   const initialValues = {
+    classId: `${id}`,
     name: "",
     questions: [emptyQuestion],
   };
 
-  const handleSubmit = (values: Values) => {
-    // Handle form submission
-    console.log(values);
+  const handleSubmit = async (values: Values) => {
+    //console.log(values);
+
+    const values2 = {
+      name: values.name,
+      classId: id,
+      questions: values.questions.map((q: any) => {
+        return {
+          content: q.question,
+          answer1: q.answers[0],
+          isCorrect1: q.answers[0] == q.answers[q.correctAnswer],
+          answer2: q.answers[1],
+          isCorrect2: q.answers[1] == q.answers[q.correctAnswer],
+          answer3: q.answers[2],
+          isCorrect3: q.answers[2] == q.answers[q.correctAnswer],
+          answer4: q.answers[3],
+          isCorrect4: q.answers[3] == q.answers[q.correctAnswer],
+        };
+      }),
+    };
+    console.log(values2);
+
+    try {
+      const response = await axios.post("/Quiz/create", values2, {
+        baseURL: process.env.NEXT_PUBLIC_API_URL,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const validationSchema = Yup.object().shape({

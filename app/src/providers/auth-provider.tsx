@@ -49,6 +49,7 @@ const AuthProvider: React.FunctionComponent<Props> = ({ children }) => {
     queryKey: ["userData"],
     queryFn: () => _getUser(axios),
     onSuccess: (data) => {
+      console.log(data);
       setUser(data);
       setLoaded(true);
     },

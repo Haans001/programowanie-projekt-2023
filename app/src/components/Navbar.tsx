@@ -30,12 +30,14 @@ const Navbar = () => {
         </div>
         <div className="h-[90%] flex flex-col items-center justify-between">
           <ul>
-            <li className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#618cfb] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-              <MdQuiz className="text-2xl text-gray-400 group-hover:text-white " />
-              <h3 className="text-lg text-gray-200 group-hover:text-white font-medium ">
-                Quizy
-              </h3>
-            </li>
+            <Link href="/dashboard/home">
+              <li className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#618cfb] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+                <MdQuiz className="text-2xl text-gray-400 group-hover:text-white " />
+                <h3 className="text-lg text-gray-200 group-hover:text-white font-medium ">
+                  Quizy
+                </h3>
+              </li>
+            </Link>
             <li className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-[#618cfb] p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
               <FiUsers className="text-2xl text-gray-400 group-hover:text-white " />
               <h3 className="text-lg text-gray-200 group-hover:text-white font-medium ">
