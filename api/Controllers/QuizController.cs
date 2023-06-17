@@ -10,6 +10,7 @@ namespace api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class QuizController : ControllerBase
 {
     private readonly IQuizService _quizService;
