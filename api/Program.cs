@@ -2,6 +2,7 @@ using System.Text;
 using api;
 using api.Authorization;
 using api.DatabaseContext;
+using api.Helpers;
 using api.Middlewares;
 using api.Models.Dto;
 using api.Models.Dto.Account;
@@ -59,23 +60,8 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
-
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSingleton(authenicationSettings);
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<IClassService, ClassService>();
-builder.Services.AddScoped<IQuestionService,QuestionService>();
-builder.Services.AddScoped<IScoreService,ScoreService>();
-builder.Services.AddScoped<IQuizService, QuizService>();
-builder.Services.AddScoped<IUserContextService, UserContextService>();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IAccountService,AccountService>();
-builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
-builder.Services.AddScoped<IValidator<LoginDto>, LoginUserDtoValidator>();
-builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
-
-
+builder.Services.Inject();
 
 var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
