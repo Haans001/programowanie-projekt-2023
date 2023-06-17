@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy  =>
                       {
-                          policy.WithOrigins(new string[]{"http://localhost:3000", "https://projekt-programowanie-2023.azurewebsites.net"}).AllowAnyHeader().AllowAnyMethod();
+                          policy.WithOrigins(new string[]{"http://localhost:3000", "https://programowanie-projekt-2023.vercel.app"}).AllowAnyHeader().AllowAnyMethod();
                       });
 });
 
