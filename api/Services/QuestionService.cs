@@ -24,7 +24,17 @@ public class QuestionService : IQuestionService
 
     public List<GetQuestionDto> GetQuestionFromQuiz(int id)
     { 
-        return _mapper.Map<List<GetQuestionDto>>(_context.Questions.Include(q=>q.Answers).Where(q => q.QuizId == id).ToList());
+        var quiz = _context.Quizzes.FirstOrDefault(q => q.Id == id);
+        if (quiz is null)
+        {
+            throw new NotFoundException("Quiz not found");
+        }
+        var questions = _context.Questions.Include(q=>q.Answers).Where(q => q.QuizId == id).ToList();
+        if (questions is null || questions.Count == 0)
+        {
+            throw new NotFoundException("Quiz is empty");
+        }
+        return _mapper.Map<List<GetQuestionDto>>(questions);
     }
 
     public GetQuestionDto GetQuestionById(int id)

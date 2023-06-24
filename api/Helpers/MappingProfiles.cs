@@ -50,14 +50,15 @@ public class MappingProfiles : Profile
 
         #region Score
         CreateMap<Score, GetScoreDto>();
-        CreateMap<AddScoreDto, Score>();
+        CreateMap<AddScoreDto, Score>(); 
         #endregion
-        
-        #region Quiz
+        #region Quiy
+
         CreateMap<Quiz, GetQuizDto>()
             .ForMember(dest=>dest.Questions,src=>src.MapFrom(x=>x.Questions))
             .ForMember(dest=>dest.User,src=>src.MapFrom(x=>x.User))
             .ForMember(dest=>dest.Class,src=>src.MapFrom(x=>x.Class));
+
         #endregion
     }
 }
