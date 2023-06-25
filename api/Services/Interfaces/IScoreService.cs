@@ -4,8 +4,8 @@ namespace api.Services.Interfaces;
 
 public interface IScoreService
 {
-    List<GetScoreDto> Scores();
-    GetScoreDto GetScoreById(int id);
-    void CreateScore(AddScoreDto addScoreDto);
-    void DeleteScore(int id);
+    Task<List<GetScoreDto>> ScoresAsync();
+    Task<GetScoreDto> GetScoreByIdAsync(int id);
+    Task CreateScoreAsync(AddScoreDto addScoreDto);
+    Task DeleteScoreAsync(int id);
 }

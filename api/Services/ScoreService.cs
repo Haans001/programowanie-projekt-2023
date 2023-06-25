@@ -4,6 +4,7 @@ using api.Models.Dto.ScoreDto;
 using api.Models.Entities;
 using api.Services.Interfaces;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Services;
 
@@ -20,15 +21,15 @@ public class ScoreService : IScoreService
         _userContextService = userContextService;
     }
     
-    public List<GetScoreDto> Scores()
+    public async Task<List<GetScoreDto>> ScoresAsync()
     {
-        var scores = _context.Scores.ToList();
+        var scores = await _context.Scores.ToListAsync();
         return _mapper.Map<List<GetScoreDto>>(scores);
     }
 
-    public GetScoreDto GetScoreById(int id)
+    public async Task<GetScoreDto> GetScoreByIdAsync(int id)
     {
-        var score = _context.Scores.FirstOrDefault(x => x.Id == id);
+        var score = await _context.Scores.FirstOrDefaultAsync(x => x.Id == id);
         if (score is null)
         {
             throw new NotFoundException("Score not found");
@@ -36,7 +37,7 @@ public class ScoreService : IScoreService
         return _mapper.Map<GetScoreDto>(score);
     }
     
-    public void CreateScore(AddScoreDto addScoreDto)
+    public async Task CreateScoreAsync(AddScoreDto addScoreDto)
     {
         var score = _mapper.Map<Score>(addScoreDto);
         score.UserId = _userContextService.GetUserId;
@@ -46,14 +47,14 @@ public class ScoreService : IScoreService
         _context.SaveChanges();
     }
 
-    public void DeleteScore(int id)
+    public async Task DeleteScoreAsync(int id)
     {
-        var score = _context.Scores.FirstOrDefault(x => x.Id == id);
+        var score = await _context.Scores.FirstOrDefaultAsync(x => x.Id == id);
         if (score is null)
         {
             throw new NotFoundException("Score not found");
         }
         _context.Scores.Remove(score);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

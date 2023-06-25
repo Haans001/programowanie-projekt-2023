@@ -16,27 +16,27 @@ public class ScoreController : ControllerBase
     }
     
     [HttpGet]
-    public ActionResult<List<GetScoreDto>> Scores()
+    public async Task<ActionResult<List<GetScoreDto>>> ScoresAsync()
     {
-        var scores = _scoreService.Scores();
+        var scores = await _scoreService.ScoresAsync();
         return Ok(scores);
     }
     [HttpGet("{id}")]
-    public ActionResult<GetScoreDto> GetScoreById(int id)
+    public async Task<ActionResult<GetScoreDto>> GetScoreByIdAsync(int id)
     {
-        var score = _scoreService.GetScoreById(id);
+        var score = await _scoreService.GetScoreByIdAsync(id);
         return Ok(score);
     }
     [HttpPost]
-    public ActionResult CreateScore(AddScoreDto addScoreDto)
+    public async Task<ActionResult> CreateScoreAsync(AddScoreDto addScoreDto)
     {
-        _scoreService.CreateScore(addScoreDto);
+        await _scoreService.CreateScoreAsync(addScoreDto);
         return Ok();
     }
     [HttpDelete("{id}")]
-    public ActionResult DeleteScore(int id)
+    public async Task<ActionResult> DeleteScoreAsync(int id)
     {
-        _scoreService.DeleteScore(id);
+        await _scoreService.DeleteScoreAsync(id);
         return Ok();
     }
 
