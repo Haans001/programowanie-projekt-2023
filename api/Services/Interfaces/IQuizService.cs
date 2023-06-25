@@ -5,9 +5,9 @@ namespace api.Services.Interfaces;
 
 public interface IQuizService
 {
-    ICollection<GetQuizDto> GetAllQuizzes();
-    ICollection<GetQuizDto> GetAllQuizzesForClass(int id);
-    GetQuizDto GetQuizById(int id);
-    void CreateQuiz(CreateQuizDto createQuizDto);
-    void DeleteQuiz(int id);
+    Task<ICollection<GetQuizDto>> GetAllQuizzesAsync();
+    Task<ICollection<GetQuizDto>> GetAllQuizzesForClassAsync(int id);
+    Task<GetQuizDto> GetQuizByIdAsync(int id);
+    Task CreateQuizAsync(CreateQuizDto createQuizDto);
+    Task DeleteQuizAsync(int id);
 }

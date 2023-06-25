@@ -25,63 +25,63 @@ public class QuizController : ControllerBase
 
 
     [HttpGet] 
-    public IActionResult GetAllQuizzes()
+    public async Task<IActionResult> GetAllQuizzesAsync()
     {
-        return Ok(_quizService.GetAllQuizzes());
+        return Ok(await _quizService.GetAllQuizzesAsync());
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetQuizById([FromRoute] int id)
+    public async Task<IActionResult> GetQuizByIdAsync([FromRoute] int id)
     {
-        return Ok(_quizService.GetQuizById(id));
+        return Ok(await _quizService.GetQuizByIdAsync(id));
     }
 
     [HttpGet("{id}/Class")]
-    public IActionResult GetQuizForClass([FromRoute] int id)
+    public async Task<IActionResult> GetQuizForClassAsync([FromRoute] int id)
     {
-        return Ok(_quizService.GetAllQuizzesForClass(id));
+        return Ok(await _quizService.GetAllQuizzesForClassAsync(id));
     }   
     
     
     [HttpPost("create")]
     [Authorize(Roles = "Teacher")]
-    public IActionResult CreateQuiz([FromBody]CreateQuizDto createQuizDto)
+    public async Task<IActionResult> CreateQuizAsync([FromBody]CreateQuizDto createQuizDto)
     {
-        _quizService.CreateQuiz(createQuizDto);
+        await _quizService.CreateQuizAsync(createQuizDto);
         return Ok();
     }
 
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteQuiz([FromRoute] int id)
+    public async Task<IActionResult> DeleteQuizAsync([FromRoute] int id)
     {
-        _quizService.DeleteQuiz(id);
+        await _quizService.DeleteQuizAsync(id);
         return NoContent();
     }
     
         
     [HttpPost("{id}/addQuestion")]
-    public IActionResult AddQuestion([FromBody]CreateQuestionDto createQuestionDto,[FromRoute] int id)
+    public async Task<IActionResult> AddQuestionAsync([FromBody]CreateQuestionDto createQuestionDto,[FromRoute] int id)
     {
-        _questionService.CreateQuestion(createQuestionDto,id);
+        await _questionService.CreateQuestionAsync(createQuestionDto,id);
         return Ok();
     }
 
     [HttpGet("{id}/questions")]
-    public IActionResult GetQuestions([FromRoute] int id)
+    public async Task<IActionResult> GetQuestionsAsync([FromRoute] int id)
     {
-        return Ok(_questionService.GetQuestionFromQuiz(id));
+        return Ok(await _questionService.GetQuestionFromQuizAsync(id));
     }
     [HttpPut("{id}/questions/{qid}")]
-    public IActionResult UpdateQuestion([FromRoute] int id,[FromRoute] int qid,[FromBody] UpdateQuestionDto updateQuestionDto)
+    public async Task<IActionResult> UpdateQuestionAsync([FromRoute] int id,[FromRoute] int qid,[FromBody] UpdateQuestionDto updateQuestionDto)
     {
-        _questionService.UpdateQuestion(id,qid,updateQuestionDto);
+        await _questionService.UpdateQuestionAsync(id,qid,updateQuestionDto);
         return NoContent();
     }
     [HttpDelete("questions/{qid}")]
-    public IActionResult DeleteQuestion([FromRoute] int qid)
+    public async Task<IActionResult> DeleteQuestionAsync([FromRoute] int qid)
     {
-        _questionService.DeleteQuestion(qid);
+        await _questionService.DeleteQuestionAsync(qid);
         return NoContent();
     }
 }
