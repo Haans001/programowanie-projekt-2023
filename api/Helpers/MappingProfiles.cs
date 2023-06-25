@@ -50,7 +50,7 @@ public class MappingProfiles : Profile
 
         #region Score
         CreateMap<Score, GetScoreDto>();
-        CreateMap<AddScoreDto, Score>(); 
+        CreateMap<AddScoreDto, Score>();    
         #endregion
         #region Quiy
 

@@ -34,10 +34,10 @@ public class AccountService : IAccountService
         this._authenicationSettings = authenicationSetting;
     }
 
-    public GetAccountDto GetAccount()
+    public async Task<GetAccountDto> GetAccountAsync()
     {
-        var existingUser = _context.Users.Include(u=>u.Role)
-            .FirstOrDefault(u=>u.Id==_userContextService.GetUserId);
+        var existingUser = await _context.Users.Include(u=>u.Role)
+            .FirstOrDefaultAsync(u=>u.Id==_userContextService.GetUserId);
         if (existingUser is null)
         {
             throw new NotFoundException("user not found");
@@ -45,7 +45,7 @@ public class AccountService : IAccountService
         return _mapper.Map<GetAccountDto>(existingUser);
     }
 
-    public void RegisterUser(RegisterUserDto registerUserDto)
+    public async Task RegisterUserAsync(RegisterUserDto registerUserDto)
     {
         var user = new User()
         {
@@ -55,13 +55,13 @@ public class AccountService : IAccountService
             RoleId = registerUserDto.RoleId
         };
         user.Password = _passwordHasher.HashPassword(user,registerUserDto.Password);
-        _context.Users.Add(user);
-        _context.SaveChanges();
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
     }
 
-    public ICollection<Role> GetRoles()
+    public async Task<ICollection<Role>> GetRolesAsync()
     {
-        return _context.Roles.ToList();
+        return await _context.Roles.ToListAsync();
     }
 
     public object GenerateJwt(LoginDto loginDto)
@@ -97,20 +97,20 @@ public class AccountService : IAccountService
         return tokenHandler.WriteToken(token);
     }
 
-    public void UpdateUser(int id, UpdateUserDto updateUserDto)
+    public async Task UpdateUserAsync(int id, UpdateUserDto updateUserDto)
     {
-        var userToUpdate = _context.Users.FirstOrDefault(u => u.Id == id);
+        var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         if (userToUpdate is null)
         {
             throw new NotFoundException("user not found");
         }
         _mapper.Map(updateUserDto,userToUpdate);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteUser(int id)
+    public async Task DeleteUserAsync(int id)
     {
-        var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
+        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         if (existingUser is null)
         {
             throw new NotFoundException("user not found");
@@ -120,15 +120,17 @@ public class AccountService : IAccountService
         _context.SaveChanges();
     }
 
-    public void AddUsertoClass(int classId)
+    
+    //Sprawdzic czy user nie jest juz w klasie lub czy to wgl działa XDDDDDD
+    public async Task AddUsertoClassAsync(int classId)
     {
-        var user = _context.Users.FirstOrDefault(u=>u.Id==_userContextService.GetUserId);   
-            var classs = _context.Classes.FirstOrDefault(c=>c.Id==classId);
+        var user = await _context.Users.FirstOrDefaultAsync(u=>u.Id==_userContextService.GetUserId);   
+            var classs =await _context.Classes.FirstOrDefaultAsync(c=>c.Id==classId);
             if(user is null || classs is null)
             {
                 throw new NotFoundException("user or class not found");
             }
             classs.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
     }
 }
