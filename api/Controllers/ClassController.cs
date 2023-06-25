@@ -15,42 +15,42 @@ public class ClassController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IList<GetClassDto>> GetAllClasses()
+    public async Task<ActionResult<IList<GetClassDto>>> GetAllClasses()
     {
-        return Ok(_classService.GetAllClasses());
+        return Ok(await _classService.GetAllClassesAsync());
     }
     
     [HttpGet("{id}")]
-    public ActionResult<GetClassDto> GetClass([FromRoute] int id)
+    public async Task<ActionResult<GetClassDto>> GetClass([FromRoute] int id)
     {
-        return Ok(_classService.GetClassById(id));
+        return Ok(await _classService.GetClassByIdAsync(id));
     }
     
     [HttpGet("me")]
-    public ActionResult<IEnumerable<GetClassDto>> GetQuizzesForUser()
+    public async Task<ActionResult<IEnumerable<GetClassDto>>> GetQuizzesForUser()
     {
-        return Ok(_classService.GetClassesForUser());
+        return Ok(await _classService.GetClassesForUserAsync());
     }
     
     
     [HttpPost("create")]
-    public IActionResult CreateClass([FromBody] CreateClassDto createClassDto)
+    public async Task<IActionResult> CreateClass([FromBody] CreateClassDto createClassDto)
     {
-        var cid = _classService.CreateClass(createClassDto);
+        var cid = await _classService.CreateClassAsync(createClassDto);
         return Created($"/api/restaurant/{cid}",null);
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateClass([FromRoute] int id, [FromBody] UpdateClassDto updateClassDto)
+    public async Task<IActionResult> UpdateClass([FromRoute] int id, [FromBody] UpdateClassDto updateClassDto)
     {
-        _classService.UpdateClass(id,updateClassDto);
+        await _classService.UpdateClassAsync(id,updateClassDto);
         return NoContent();
     }
     
     [HttpDelete("{id}")]
-    public IActionResult DeleteClass([FromRoute] int id)
+    public async Task<IActionResult> DeleteClass([FromRoute] int id)
     {
-        _classService.DeleteClass(id);
+        await _classService.DeleteClassAsync(id);
         return NoContent();
     }
  }

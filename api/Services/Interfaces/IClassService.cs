@@ -4,10 +4,10 @@ namespace api.Services.Interfaces;
 
 public interface IClassService
 {
-    ICollection<GetClassDto> GetAllClasses();
-    GetClassDto GetClassById(int id);
-    int CreateClass(CreateClassDto createClassDto);
-    void UpdateClass(int id, UpdateClassDto updateClassDto);
-    void DeleteClass(int id);
-    ICollection<GetUserClasses> GetClassesForUser();
+    Task<ICollection<GetClassDto>> GetAllClassesAsync();
+    Task<GetClassDto> GetClassByIdAsync(int id);
+    Task<int> CreateClassAsync(CreateClassDto createClassDto);
+    Task UpdateClassAsync(int id, UpdateClassDto updateClassDto);
+    Task DeleteClassAsync(int id);
+    Task<ICollection<GetUserClasses>> GetClassesForUserAsync();
 } 
