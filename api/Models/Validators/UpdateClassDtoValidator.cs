@@ -8,8 +8,7 @@ public class UpdateClassDtoValidator : AbstractValidator<UpdateClassDto>
     public UpdateClassDtoValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty()
-            .MaximumLength(50);
+            .NotEmpty();
         RuleFor(x => x.Description)
             .MaximumLength(250);
     }
