@@ -32,7 +32,7 @@ public class ClassService : IClassService
         var existingClass = await _context.Classes.Include(u=>u.Users).FirstOrDefaultAsync(c => c.Id == id);
         if (existingClass is null)
         {
-            throw new NotFoundException("class not found");
+            throw new NotFoundException("klasa nie znaleziona");
         }
         return _mapper.Map<GetClassDto>(existingClass);
     }
@@ -53,7 +53,7 @@ public class ClassService : IClassService
         var existingClass = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
         if (existingClass is null)
         {
-            throw new NotFoundException("class not found");
+            throw new NotFoundException("klasa nie znaleziona");
         }
         _mapper.Map(updateClassDto,existingClass);  
         _context.Classes.Update(existingClass);
@@ -65,7 +65,7 @@ public class ClassService : IClassService
         var classToDelete = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
         if (classToDelete is null)
         {
-            throw new NotFoundException("class not found");
+            throw new NotFoundException("klasa nie znaleziona");
         }
         _context.Classes.Remove(classToDelete); 
         await _context.SaveChangesAsync();

@@ -63,7 +63,7 @@ public class QuestionService : IQuestionService
        var questionToUpdate = await _context.Questions.Include(a=>a.Answers).FirstOrDefaultAsync(q => q.Id == id);
          if (questionToUpdate is null)
          {
-              throw new NotFoundException("Question not found");
+              throw new NotFoundException("Pytanie nie znalezione");
          } 
          questionToUpdate.Contents = updateQuestionDto.Content;
          questionToUpdate.Answers.Clear();
@@ -83,7 +83,7 @@ public class QuestionService : IQuestionService
         var questionToDelete = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
         if (questionToDelete is null)
         {
-            throw new NotFoundException("Question not found");
+            throw new NotFoundException("Pytanie nie znalezione");
         }
         _context.Questions.Remove(questionToDelete);
         await _context.SaveChangesAsync();

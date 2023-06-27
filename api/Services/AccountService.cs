@@ -41,7 +41,7 @@ public class AccountService : IAccountService
             .FirstOrDefaultAsync(u=>u.Id==_userContextService.GetUserId);
         if (existingUser is null)
         {
-            throw new NotFoundException("user not found");
+            throw new NotFoundException("użytkownik nie znaleziony");
         }
         return _mapper.Map<GetAccountDto>(existingUser);
     }
@@ -70,12 +70,12 @@ public class AccountService : IAccountService
         var user = _context.Users.Include(u=>u.Role).FirstOrDefault(u => u.Email == loginDto.Email);
         if (user is null)
         {
-            throw new BadRequestException("Invalid email or password");
+            throw new BadRequestException("nieprawidłowy email lub hasło");
         }
         var result = _passwordHasher.VerifyHashedPassword(user,user.Password,loginDto.Password);
         if (result == PasswordVerificationResult.Failed)
         {
-            throw new BadRequestException("Invalid email or password");
+            throw new BadRequestException("nieprawidłowy email lub hasło");
         }
 
         var claims = new List<Claim>()
@@ -103,7 +103,7 @@ public class AccountService : IAccountService
         var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         if (userToUpdate is null)
         {
-            throw new NotFoundException("user not found");
+            throw new NotFoundException("użytkownik nie znaleziony");
         }
         _mapper.Map(updateUserDto,userToUpdate);
         await _context.SaveChangesAsync();
@@ -114,7 +114,7 @@ public class AccountService : IAccountService
         var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         if (existingUser is null)
         {
-            throw new NotFoundException("user not found");
+            throw new NotFoundException("użytkownik nie znaleziony");
         }
 
         _context.Users.Remove(existingUser);
@@ -129,12 +129,12 @@ public class AccountService : IAccountService
             var classs =await _context.Classes.Include(x=>x.Users).FirstOrDefaultAsync(c=>c.Id==addUserToClass.ClassId);
             if(user is null || classs is null)
             {
-                throw new NotFoundException("user or class not found");
+                throw new NotFoundException("użytkownik lub klasa nie znaleziona");
             }
 
             if (classs.Users.Any(u=>u.Email==user.Email))
             {
-                throw new BadRequestException("uzytkownik jest juz w klasie");
+                throw new BadRequestException("użytkownik jest juz w klasie");
             }
             classs.Users.Add(user);
             await _context.SaveChangesAsync();

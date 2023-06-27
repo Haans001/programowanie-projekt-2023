@@ -39,7 +39,7 @@ public class QuizService : IQuizService
         var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
         if (quiz is null)
         {
-            throw new NotFoundException("Quiz not found");
+            throw new NotFoundException("Quiz nie znaleziony");
         }
         return _mapper.Map<GetQuizDto>(quiz);   
     }
@@ -67,7 +67,7 @@ public class QuizService : IQuizService
         var quizToDelete = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
         if (quizToDelete is null)
         {
-            throw new NotFoundException("Quiz not found");
+            throw new NotFoundException("Quiz nie znaleziony");
         }
         _context.Quizzes.Remove(quizToDelete);
         await _context.SaveChangesAsync();

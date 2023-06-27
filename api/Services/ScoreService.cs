@@ -32,7 +32,7 @@ public class ScoreService : IScoreService
         var score = await _context.Scores.FirstOrDefaultAsync(x => x.Id == id);
         if (score is null)
         {
-            throw new NotFoundException("Score not found");
+            throw new NotFoundException("Wynik nie istnieje");
         }
         return _mapper.Map<GetScoreDto>(score);
     }
@@ -52,7 +52,7 @@ public class ScoreService : IScoreService
         var score = await _context.Scores.FirstOrDefaultAsync(x => x.Id == id);
         if (score is null)
         {
-            throw new NotFoundException("Score not found");
+            throw new NotFoundException("Wynik nie istnieje");
         }
         _context.Scores.Remove(score);
         await _context.SaveChangesAsync();
