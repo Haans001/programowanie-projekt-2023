@@ -2,6 +2,7 @@
 using api.DatabaseContext;
 using api.Models.Dto;
 using api.Models.Dto.Account;
+using api.Models.Dto.Class;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +41,10 @@ public class AccountController : ControllerBase
         return Ok();
     }
     
-    [HttpPost("Class/{classid}")]
-    public async Task<IActionResult> AddUsertoClassAsync([FromRoute] int classid)
+    [HttpPost("Class")]
+    public async Task<IActionResult> AddUsertoClassAsync([FromBody] AddUserToClass addUserToClass)
     {
-        await _accountService.AddUsertoClassAsync(classid);  
+        await _accountService.AddUsertoClassAsync(addUserToClass);  
         return Ok();
     }
     

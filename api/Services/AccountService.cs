@@ -5,6 +5,7 @@ using api.DatabaseContext;
 using api.Exceptions;
 using api.Models.Dto;
 using api.Models.Dto.Account;
+using api.Models.Dto.Class;
 using api.Models.Entities;
 using api.Services.Interfaces;
 using AutoMapper;
@@ -122,13 +123,18 @@ public class AccountService : IAccountService
 
     
     //Sprawdzic czy user nie jest juz w klasie lub czy to wgl działa XDDDDDD
-    public async Task AddUsertoClassAsync(int classId)
+    public async Task AddUsertoClassAsync(AddUserToClass addUserToClass)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u=>u.Id==_userContextService.GetUserId);   
-            var classs =await _context.Classes.FirstOrDefaultAsync(c=>c.Id==classId);
+        var user = await _context.Users.FirstOrDefaultAsync(u=>u.Email==addUserToClass.Email);   
+            var classs =await _context.Classes.Include(x=>x.Users).FirstOrDefaultAsync(c=>c.Id==addUserToClass.ClassId);
             if(user is null || classs is null)
             {
                 throw new NotFoundException("user or class not found");
+            }
+
+            if (classs.Users.Any(u=>u.Email==user.Email))
+            {
+                throw new BadRequestException("uzytkownik jest juz w klasie");
             }
             classs.Users.Add(user);
             await _context.SaveChangesAsync();

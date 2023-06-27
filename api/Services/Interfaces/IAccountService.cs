@@ -1,5 +1,6 @@
 ﻿using api.Models.Dto;
 using api.Models.Dto.Account;
+using api.Models.Dto.Class;
 using api.Models.Entities;
 
 namespace api.Services.Interfaces;
@@ -12,5 +13,5 @@ public interface IAccountService
     object GenerateJwt(LoginDto loginDto);
     Task UpdateUserAsync(int id, UpdateUserDto updateUserDto);
     Task DeleteUserAsync(int id);
-    Task AddUsertoClassAsync(int classId);
+    Task AddUsertoClassAsync(AddUserToClass addUserToClass);
 }
