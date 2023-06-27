@@ -43,8 +43,8 @@ public class ScoreService : IScoreService
         score.UserId = _userContextService.GetUserId;
         score.DateOfCompletion = DateTime.Now.ToUniversalTime();
         score.QuizId = addScoreDto.QuizId;
-        _context.Scores.Add(score);
-        _context.SaveChanges();
+        await _context.Scores.AddAsync(score);
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteScoreAsync(int id)
