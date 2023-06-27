@@ -13,7 +13,9 @@ public class ScoreService : IScoreService
     private readonly QuizDbContext _context;
     private readonly IMapper _mapper;
     private readonly IUserContextService _userContextService;
-
+    
+    
+    
     public ScoreService(QuizDbContext context, IMapper mapper, IUserContextService userContextService)
     {
         _context = context;
