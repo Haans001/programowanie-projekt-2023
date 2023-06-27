@@ -1,16 +1,17 @@
 ﻿using api.Models.Dto;
 using api.Models.Dto.Account;
+using api.Models.Dto.Class;
 using api.Models.Entities;
 
 namespace api.Services.Interfaces;
 
 public interface IAccountService
 {
-    GetAccountDto GetAccount();
-    void RegisterUser(RegisterUserDto registerUserDto);
-    ICollection<Role> GetRoles();
+    Task<GetAccountDto> GetAccountAsync();
+    Task RegisterUserAsync(RegisterUserDto registerUserDto);
+    Task<ICollection<Role>> GetRolesAsync();
     object GenerateJwt(LoginDto loginDto);
-    void UpdateUser(int id, UpdateUserDto updateUserDto);
-    void DeleteUser(int id);
-    void AddUsertoClass(int classId);
+    Task UpdateUserAsync(int id, UpdateUserDto updateUserDto);
+    Task DeleteUserAsync(int id);
+    Task AddUsertoClassAsync(AddUserToClass addUserToClass);
 }

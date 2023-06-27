@@ -147,18 +147,6 @@ namespace api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Teacher"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Student"
-                        });
                 });
 
             modelBuilder.Entity("api.Models.Entities.Score", b =>
@@ -172,8 +160,9 @@ namespace api.Migrations
                     b.Property<DateTime>("DateOfCompletion")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("PercentOfCorrectAnswers")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("PercentOfCorrectAnswers")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
 
                     b.Property<int>("QuizId")
                         .HasColumnType("integer");

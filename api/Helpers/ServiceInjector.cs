@@ -2,6 +2,8 @@
 using api.Middlewares;
 using api.Models.Dto;
 using api.Models.Dto.Account;
+using api.Models.Dto.Class;
+using api.Models.Dto.Question;
 using api.Models.Entities;
 using api.Models.Validators;
 using api.Services;
@@ -29,8 +31,17 @@ public static class ServiceInjector
         collection.AddHttpContextAccessor();
         collection.AddScoped<IAccountService,AccountService>();
         collection.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+        #region Validators
         collection.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
         collection.AddScoped<IValidator<LoginDto>, LoginUserDtoValidator>();
+        collection.AddScoped<IValidator<CreateClassDto>,CreateClassDtoValidator>();
+        collection.AddScoped<IValidator<CreateQuestionDto>, CreateQuestionDtoValidator>();
+        collection.AddScoped<IValidator<CreateQuizDto>,CreateQuizDtoValidator>();
+        collection.AddScoped<IValidator<UpdateClassDto>, UpdateClassDtoValidator>();
+        collection.AddScoped<IValidator<UpdateQuestionDto>, UpdateQuestionDtoValidator>();
+        collection.AddScoped<IValidator<UpdateQuizDto>, UpdateQuizDtoValidator>();
+        #endregion
         collection.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 
     }

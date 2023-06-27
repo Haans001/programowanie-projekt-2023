@@ -22,58 +22,58 @@ public class ClassService : IClassService
         _userContextService = userContextService;
     }
     
-    public ICollection<GetClassDto> GetAllClasses()
+    public async Task<ICollection<GetClassDto>> GetAllClassesAsync()
     {
-        return _mapper.Map<IList<GetClassDto>>(_context.Classes.ToList());
+        return _mapper.Map<IList<GetClassDto>>(await _context.Classes.ToListAsync());
     }
 
-    public GetClassDto GetClassById(int id)
+    public async Task<GetClassDto> GetClassByIdAsync(int id)
     {
-        var existingClass = _context.Classes.Include(u=>u.Users).FirstOrDefault(c => c.Id == id);
+        var existingClass = await _context.Classes.Include(u=>u.Users).FirstOrDefaultAsync(c => c.Id == id);
         if (existingClass is null)
         {
-            throw new NotFoundException("class not found");
+            throw new NotFoundException("klasa nie znaleziona");
         }
         return _mapper.Map<GetClassDto>(existingClass);
     }
 
-    public int CreateClass(CreateClassDto createClassDto)
+    public async Task<int> CreateClassAsync(CreateClassDto createClassDto)
     {
         var newClass = _mapper.Map<Class>(createClassDto);
-        var user = _context.Users.FirstOrDefault(u => u.Id == _userContextService.GetUserId);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == _userContextService.GetUserId);
         newClass.Users.Add(user);
         newClass.OwnerId = user.Id;
-        _context.Classes.Add(newClass);
-        _context.SaveChanges();
+        await _context.Classes.AddAsync(newClass);
+        await _context.SaveChangesAsync();
         return newClass.Id;
     }
 
-    public void UpdateClass(int id, UpdateClassDto updateClassDto)
+    public async Task UpdateClassAsync(int id, UpdateClassDto updateClassDto)
     {
-        var existingClass = _context.Classes.FirstOrDefault(c => c.Id == id);
+        var existingClass = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
         if (existingClass is null)
         {
-            throw new NotFoundException("class not found");
+            throw new NotFoundException("klasa nie znaleziona");
         }
         _mapper.Map(updateClassDto,existingClass);  
         _context.Classes.Update(existingClass);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void DeleteClass(int id)
+    public async Task DeleteClassAsync(int id)
     {
-        var classToDelete = _context.Classes.FirstOrDefault(c => c.Id == id);
+        var classToDelete = await _context.Classes.FirstOrDefaultAsync(c => c.Id == id);
         if (classToDelete is null)
         {
-            throw new NotFoundException("class not found");
+            throw new NotFoundException("klasa nie znaleziona");
         }
-        _context.Classes.Remove(classToDelete);
-        _context.SaveChanges();
+        _context.Classes.Remove(classToDelete); 
+        await _context.SaveChangesAsync();
     }
 
-    public ICollection<GetUserClasses> GetClassesForUser()
+    public async Task<ICollection<GetUserClasses>> GetClassesForUserAsync()
     {
-        var classes = _context.Classes.Include(c=>c.Users).Where(a=>a.Users.Any(u=>u.Id==_userContextService.GetUserId)).ToList();
+        var classes = await _context.Classes.Include(c=>c.Users).Where(a=>a.Users.Any(u=>u.Id==_userContextService.GetUserId)).ToListAsync();
         return _mapper.Map<List<GetUserClasses>>(classes);
 
     }

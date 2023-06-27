@@ -31,7 +31,10 @@ public class QuizDbContext : DbContext
             opt.Property(a => a.FirstName).HasMaxLength(50);
             opt.Property(a => a.LastName).HasMaxLength(50);
         });
-
+        modelBuilder.Entity<Score>(opt =>
+        {
+            opt.Property(a => a.PercentOfCorrectAnswers).HasPrecision(5, 2);
+        });
         modelBuilder.Entity<Role>(opt =>
         {
             opt.Property(r => r.Name).HasMaxLength(50)

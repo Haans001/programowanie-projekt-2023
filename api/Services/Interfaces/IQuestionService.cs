@@ -4,9 +4,9 @@ namespace api.Services.Interfaces;
 
 public interface IQuestionService
 {
-    List<GetQuestionDto> GetQuestionFromQuiz(int id);
-    GetQuestionDto GetQuestionById(int id);
-    void CreateQuestion(CreateQuestionDto createQuestionDto,int quizId);
-    void UpdateQuestion(int id,int qid, UpdateQuestionDto updateQuestionDto);
-    void DeleteQuestion(int id);
+    Task<List<GetQuestionDto>> GetQuestionFromQuizAsync(int id);
+    Task<GetQuestionDto> GetQuestionByIdAsync(int id);
+    Task CreateQuestionAsync(CreateQuestionDto createQuestionDto,int quizId);
+    Task UpdateQuestionAsync(int id,int qid, UpdateQuestionDto updateQuestionDto);
+    Task DeleteQuestionAsync(int id);
 }

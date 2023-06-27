@@ -22,17 +22,27 @@ public class QuestionService : IQuestionService
     }
 
 
-    public List<GetQuestionDto> GetQuestionFromQuiz(int id)
+    public async Task<List<GetQuestionDto>> GetQuestionFromQuizAsync(int id)
     { 
-        return _mapper.Map<List<GetQuestionDto>>(_context.Questions.Include(q=>q.Answers).Where(q => q.QuizId == id).ToList());
+        var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
+        if (quiz is null)
+        {
+            throw new NotFoundException("Quiz not found");
+        }
+        var questions = await _context.Questions.Include(q=>q.Answers).Where(q => q.QuizId == id).ToListAsync();
+        if (questions is null || questions.Count == 0)
+        {
+            throw new NotFoundException("Quiz is empty");
+        }
+        return _mapper.Map<List<GetQuestionDto>>(questions);
     }
 
-    public GetQuestionDto GetQuestionById(int id)
+    public async Task<GetQuestionDto> GetQuestionByIdAsync(int id)
     {
-        return _mapper.Map<GetQuestionDto>(_context.Questions.Include(q=>q.Answers).FirstOrDefault(q => q.Id == id));
+        return _mapper.Map<GetQuestionDto>(await _context.Questions.Include(q=>q.Answers).FirstOrDefaultAsync(q => q.Id == id));
     }
 
-    public void CreateQuestion(CreateQuestionDto createQuestionDto,int quizId)
+    public async Task CreateQuestionAsync(CreateQuestionDto createQuestionDto,int quizId)
     {
         var result = new Question()
         {
@@ -43,17 +53,17 @@ public class QuestionService : IQuestionService
         result.Answers.Add(new Answer(){Content = createQuestionDto.Answer2,IsCorrect = createQuestionDto.IsCorrect2});
         result.Answers.Add(new Answer(){Content = createQuestionDto.Answer3,IsCorrect = createQuestionDto.IsCorrect3});
         result.Answers.Add(new Answer(){Content = createQuestionDto.Answer3,IsCorrect = createQuestionDto.IsCorrect4});
-        _context.Questions.Add(result);
-        _context.SaveChanges();
+        await _context.Questions.AddAsync(result);
+        await _context.SaveChangesAsync();
     }
     
-    public void UpdateQuestion(int id,int qid, UpdateQuestionDto updateQuestionDto)
+    public async Task UpdateQuestionAsync(int id,int qid, UpdateQuestionDto updateQuestionDto)
     {
 
-       var questionToUpdate = _context.Questions.Include(a=>a.Answers).FirstOrDefault(q => q.Id == id);
+       var questionToUpdate = await _context.Questions.Include(a=>a.Answers).FirstOrDefaultAsync(q => q.Id == id);
          if (questionToUpdate is null)
          {
-              throw new NotFoundException("Question not found");
+              throw new NotFoundException("Pytanie nie znalezione");
          } 
          questionToUpdate.Contents = updateQuestionDto.Content;
          questionToUpdate.Answers.Clear();
@@ -64,17 +74,18 @@ public class QuestionService : IQuestionService
          answers.Add(new Answer(){Content = updateQuestionDto.Answer3,IsCorrect = updateQuestionDto.IsCorrect4});
          questionToUpdate.Answers = answers;
          _context.Questions.Update(questionToUpdate);
-         _context.SaveChanges();
+         await _context.SaveChangesAsync();
     }
+    
 
-    public void DeleteQuestion(int id)
+    public async Task DeleteQuestionAsync(int id)
     {
-        var questionToDelete = _context.Questions.FirstOrDefault(q => q.Id == id);
+        var questionToDelete = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
         if (questionToDelete is null)
         {
-            throw new NotFoundException("Question not found");
+            throw new NotFoundException("Pytanie nie znalezione");
         }
         _context.Questions.Remove(questionToDelete);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

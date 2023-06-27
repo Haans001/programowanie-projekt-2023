@@ -2,6 +2,7 @@
 using api.DatabaseContext;
 using api.Models.Dto;
 using api.Models.Dto.Account;
+using api.Models.Dto.Class;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,37 +14,37 @@ public class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
 
-    public AccountController(QuizDbContext context, IAccountService accountService)
+    public AccountController(IAccountService accountService)
     {
         _accountService = accountService;
     }
     
     [HttpGet("me")]
     [Authorize]
-    public IActionResult Me()
+    public async Task<IActionResult> MeAsync()
     {
-        return Ok(_accountService.GetAccount());
+        return Ok( await _accountService.GetAccountAsync());
     }
         
     
     [HttpGet("roles")]
-    public IActionResult GetRoles()
+    public async Task<IActionResult> GetRolesAsync()
     {   
 
-        return Ok(_accountService.GetRoles());
+        return Ok(await _accountService.GetRolesAsync());
     }
     
     [HttpPost("register")]
-    public IActionResult RegisterUser(RegisterUserDto registerUserDto)
+    public async Task<IActionResult> RegisterUserAsync(RegisterUserDto registerUserDto)
     {
-        _accountService.RegisterUser(registerUserDto);  
+        await _accountService.RegisterUserAsync(registerUserDto);  
         return Ok();
     }
     
-    [HttpPost("Class/{classid}")]
-    public IActionResult AddUsertoClass([FromRoute] int classid)
+    [HttpPost("Class")]
+    public async Task<IActionResult> AddUsertoClassAsync([FromBody] AddUserToClass addUserToClass)
     {
-        _accountService.AddUsertoClass(classid);  
+        await _accountService.AddUsertoClassAsync(addUserToClass);  
         return Ok();
     }
     

@@ -5,6 +5,7 @@ using api.Models.Dto.Class;
 using api.Models.Entities;
 using api.Services.Interfaces;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Services;
 
@@ -23,27 +24,27 @@ public class QuizService : IQuizService
         _questionService = questionService;
     }
     
-    public ICollection<GetQuizDto> GetAllQuizzes()
+    public async Task<ICollection<GetQuizDto>> GetAllQuizzesAsync()
     {
-        return _mapper.Map<List<GetQuizDto>>(_context.Quizzes.ToList());    
+        return _mapper.Map<List<GetQuizDto>>(await _context.Quizzes.ToListAsync());    
     }
 
-    public ICollection<GetQuizDto> GetAllQuizzesForClass(int id)
+    public async Task<ICollection<GetQuizDto>> GetAllQuizzesForClassAsync(int id)
     {
-        return _mapper.Map<List<GetQuizDto>>(_context.Quizzes.Where(q=>q.ClassId== id).ToList());  
+        return _mapper.Map<List<GetQuizDto>>(await _context.Quizzes.Where(q=>q.ClassId== id).ToListAsync());  
     }
 
-    public GetQuizDto GetQuizById(int id)
+    public async Task<GetQuizDto> GetQuizByIdAsync(int id)
     {
-        var quiz = _context.Quizzes.FirstOrDefault(q => q.Id == id);
+        var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
         if (quiz is null)
         {
-            throw new NotFoundException("Quiz not found");
+            throw new NotFoundException("Quiz nie znaleziony");
         }
         return _mapper.Map<GetQuizDto>(quiz);   
     }
 
-    public void CreateQuiz(CreateQuizDto createQuizDto)
+    public async Task CreateQuizAsync(CreateQuizDto createQuizDto)
     {
         var newQuiz = new Quiz()
         {
@@ -53,22 +54,22 @@ public class QuizService : IQuizService
             DateOfCreation = DateTime.UtcNow,
             UserId = _userContextService.GetUserId
         };
-        _context.Quizzes.Add(newQuiz);
-        _context.SaveChanges();
+        await _context.Quizzes.AddAsync(newQuiz);
+        await _context.SaveChangesAsync();
         foreach (var question in createQuizDto.Questions)
         {
-            _questionService.CreateQuestion(question, newQuiz.Id);
+            await _questionService.CreateQuestionAsync(question, newQuiz.Id);
         }
     }
     
-    public void DeleteQuiz(int id)
+    public async Task DeleteQuizAsync(int id)
     {
-        var quizToDelete = _context.Quizzes.FirstOrDefault(q => q.Id == id);
+        var quizToDelete = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
         if (quizToDelete is null)
         {
-            throw new NotFoundException("Quiz not found");
+            throw new NotFoundException("Quiz nie znaleziony");
         }
         _context.Quizzes.Remove(quizToDelete);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }

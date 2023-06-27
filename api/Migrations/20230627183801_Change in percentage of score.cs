@@ -4,7 +4,7 @@
 
 namespace api.Migrations
 {
-    public partial class Seedingdata : Migration
+    public partial class Changeinpercentageofscore : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,14 +20,15 @@ namespace api.Migrations
                 oldClrType: typeof(int),
                 oldType: "integer");
 
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Teacher" },
-                    { 2, "Student" }
-                });
+            migrationBuilder.AlterColumn<decimal>(
+                name: "PercentOfCorrectAnswers",
+                table: "Scores",
+                type: "numeric(5,2)",
+                precision: 5,
+                scale: 2,
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "integer");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Scores_Users_UserId",
@@ -43,16 +44,6 @@ namespace api.Migrations
                 name: "FK_Scores_Users_UserId",
                 table: "Scores");
 
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: 2);
-
             migrationBuilder.AlterColumn<int>(
                 name: "UserId",
                 table: "Scores",
@@ -62,6 +53,16 @@ namespace api.Migrations
                 oldClrType: typeof(int),
                 oldType: "integer",
                 oldNullable: true);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "PercentOfCorrectAnswers",
+                table: "Scores",
+                type: "integer",
+                nullable: false,
+                oldClrType: typeof(decimal),
+                oldType: "numeric(5,2)",
+                oldPrecision: 5,
+                oldScale: 2);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Scores_Users_UserId",
