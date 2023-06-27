@@ -13,3 +13,24 @@ export const _createQuiz = async (axios: AxiosInstance, values: any) => {
 
   return response.data;
 };
+
+export interface Answers {
+  id: number;
+  content: string;
+  isCorrect: boolean;
+}
+
+export interface Questions {
+  id: number;
+  content: string;
+  answersDtos: Answers[];
+}
+
+export const _getQuizQuestions = async (
+  axios: AxiosInstance,
+  id: number
+): Promise<Questions[]> => {
+  const response = await axios.get(`/Quiz/${id}/questions`);
+
+  return response.data;
+};

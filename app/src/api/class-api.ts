@@ -1,3 +1,4 @@
+import type { User } from "@/providers/auth-provider";
 import type { AxiosInstance } from "axios";
 
 export interface AddClassRequestBody {
@@ -18,12 +19,13 @@ interface Class {
   id: number;
   name: string;
   description: string;
+  usersDtos: User[];
 }
 
-export const _getAllClasses = async (
+export const _getUserClasses = async (
   axios: AxiosInstance
 ): Promise<Class[]> => {
-  const response = await axios.get("/Class");
+  const response = await axios.get("/Class/me");
 
   return response.data;
 };

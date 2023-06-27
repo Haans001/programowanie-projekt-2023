@@ -40,7 +40,8 @@ public class ScoreService : IScoreService
     {
         var score = _mapper.Map<Score>(addScoreDto);
         score.UserId = _userContextService.GetUserId;
-        score.DateOfCompletion = DateTime.Now;
+        score.DateOfCompletion = DateTime.Now.ToUniversalTime();
+        score.QuizId = addScoreDto.QuizId;
         _context.Scores.Add(score);
         _context.SaveChanges();
     }

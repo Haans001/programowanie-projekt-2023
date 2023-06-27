@@ -24,7 +24,8 @@ const ClassPage: NextPage = () => {
     queryKey: ["classQuizes"],
     queryFn: () => _getClassQuizzes(axios, Number(params.class_id)),
   });
-  console.log(quizData);
+
+  const students = classData?.usersDtos ?? [];
 
   return classData ? (
     <div>
@@ -33,15 +34,20 @@ const ClassPage: NextPage = () => {
       </h1>
       <p className="mt-2 text-gray-700">{classData.description}</p>
       <div>
-        <h2 className="text-2xl font-semibold mt-8">Quizy</h2>
-        <Link href={pages.dashboard.addQuiz.path + params.class_id}>
-          <Button className="mt-4">Dodaj Quiz</Button>
-        </Link>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-semibold mt-8">Quizy</h2>
+          <Link href={pages.dashboard.addQuiz.path + params.class_id}>
+            <Button className="mt-4">Dodaj Quiz</Button>
+          </Link>
+        </div>
+
         {quizData?.length > 0 ? (
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
             {quizData.map((quiz: any) => (
               <Card title={quiz.name} key={quiz.id}>
-                <Button>Rozpocznij quiz</Button>
+                <Link href={pages.dashboard.solveQuiz.path + quiz.id}>
+                  <Button>Rozpocznij quiz</Button>
+                </Link>
               </Card>
             ))}
           </div>
@@ -52,6 +58,25 @@ const ClassPage: NextPage = () => {
             </p>
           </div>
         )}
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold mt-8">Uczniowie</h1>
+          <Button className="mt-4">Dodaj Ucznia</Button>
+        </div>
+        <div className="mt-6">
+          {students.length > 0 ? (
+            students.map((student) => (
+              <div className="flex gap-4" key={student.id}>
+                <p>{student.firstName + " " + student.lastName}</p>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center">
+              <p className="text-center text-sm text-gray-700 mt-4">
+                W tej klasie nie ma jeszcze uczniów
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   ) : null;

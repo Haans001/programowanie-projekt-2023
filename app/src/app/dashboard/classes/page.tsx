@@ -1,5 +1,5 @@
 "use client";
-import { _getAllClasses } from "@/api/class-api";
+import { _getUserClasses } from "@/api/class-api";
 import Button from "@/components/button";
 import Card from "@/components/card";
 import AddClassModalContent from "@/components/modal/add-class-modal-content";
@@ -18,7 +18,7 @@ const ClassesPage: NextPage = () => {
 
   const { data, refetch } = useQuery({
     queryKey: ["classes"],
-    queryFn: () => _getAllClasses(axios),
+    queryFn: () => _getUserClasses(axios),
   });
 
   return (

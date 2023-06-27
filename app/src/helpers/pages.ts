@@ -33,6 +33,10 @@ const dashboardPages = {
     title: "Dodaj quiz",
     path: "/dashboard/add-quiz/",
   },
+  solveQuiz: {
+    title: "Rozwiąż quiz",
+    path: "/dashboard/solve-quiz/",
+  },
 };
 
 export const pages = {
