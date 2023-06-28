@@ -6,6 +6,7 @@ import { useAxios } from "@/hooks/use-axios";
 import { useMutation } from "@tanstack/react-query";
 import { Field, FieldArray, Formik } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
 
 const emptyQuestion = {
   question: "",
@@ -35,6 +36,8 @@ const QuizForm = () => {
   };
 
   const axios = useAxios();
+
+  const router = useRouter();
 
   const { isLoading, mutate: addQuiz } = useMutation({
     mutationFn: (data: any) => _createQuiz(axios, data),
@@ -66,6 +69,7 @@ const QuizForm = () => {
     };
 
     addQuiz(reqBody);
+    router.push(`/dashboard/classes/${id}`);
   };
 
   const validationSchema = Yup.object().shape({
