@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Haans001/programowanie-projekt-2023/issues"
   },
-  "homepage": "https://github.com/Haans001/programowanie-projekt-2023#readme"
+  "homepage": "https://github.com/Haans001/programowanie-projekt-2023#readme",
+  "dependencies": {
+    "react-toastify": "^9.1.3"
+  }
 }

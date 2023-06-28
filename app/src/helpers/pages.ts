@@ -37,6 +37,10 @@ const dashboardPages = {
     title: "Rozwiąż quiz",
     path: "/dashboard/solve-quiz/",
   },
+  scores: {
+    title: "Wyniki",
+    path: "/dashboard/scores/",
+  },
 };
 
 export const pages = {
