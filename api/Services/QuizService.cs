@@ -72,4 +72,21 @@ public class QuizService : IQuizService
         _context.Quizzes.Remove(quizToDelete);
         await _context.SaveChangesAsync();
     }
+
+    public async Task CloseQuiz(int id)
+    {
+        var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == id);
+        if (quiz is null)
+        {
+            throw new NotFoundException("Quiz nie znaleziony");
+        }
+
+        if (!quiz.isOpen)
+        {
+            throw new QuizIsAlreadyClosed("Quiz jest już zamknięty");
+        }
+        quiz.isOpen = false;
+        _context.Quizzes.Update(quiz);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -26,6 +26,11 @@ namespace api.Middlewares
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
             }
+            catch (QuizIsAlreadyClosed quizIsAlreadyClosed)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(quizIsAlreadyClosed.Message);
+            }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);

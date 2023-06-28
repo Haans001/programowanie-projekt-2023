@@ -50,7 +50,13 @@ public class QuizController : ControllerBase
         await _quizService.CreateQuizAsync(createQuizDto);
         return Ok();
     }
-
+    
+    [HttpPost("{id}/close")]
+    public async Task<IActionResult> CloseQuizAsync([FromRoute]int id)
+    {
+        await _quizService.CloseQuiz(id);
+        return Ok();
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteQuizAsync([FromRoute] int id)

@@ -10,4 +10,5 @@ public interface IQuizService
     Task<GetQuizDto> GetQuizByIdAsync(int id);
     Task CreateQuizAsync(CreateQuizDto createQuizDto);
     Task DeleteQuizAsync(int id);
+    Task CloseQuiz(int id);
 }
