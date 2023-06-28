@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import * as React from "react";
 import { toast } from "react-toastify";
-import { _closeQuiz } from "@/api/quiz-api";
+import { _closeQuiz, _removeQuiz } from "@/api/quiz-api";
 
 const ClassPage: NextPage = () => {
   const params = useParams();
@@ -22,6 +22,16 @@ const ClassPage: NextPage = () => {
 
   const { isLoading, mutate: closeQuiz } = useMutation({
     mutationFn: (id: number) => _closeQuiz(axios, id),
+    onSuccess: (id) => {
+      console.log(id);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const { mutate: removeQuiz } = useMutation({
+    mutationFn: (id: number) => _removeQuiz(axios, id),
     onSuccess: (id) => {
       console.log(id);
     },
@@ -87,6 +97,14 @@ const ClassPage: NextPage = () => {
                       variant="danger"
                     >
                       Zamknij quiz
+                    </Button>
+                  )}
+                  {!quiz.isOpen && (
+                    <Button
+                      onClick={() => removeQuiz(Number(quiz.id))}
+                      variant="danger"
+                    >
+                      Usun quiz
                     </Button>
                   )}
                 </div>

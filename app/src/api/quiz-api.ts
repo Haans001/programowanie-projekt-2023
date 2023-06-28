@@ -53,3 +53,10 @@ export const _closeQuiz = async (axios: AxiosInstance, id: number) => {
   });
   return response.data;
 };
+
+export const _removeQuiz = async (axios: AxiosInstance, id: number) => {
+  const response = await axios.delete(`/Quiz/${id}`, {
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+  });
+  return response.data;
+};
