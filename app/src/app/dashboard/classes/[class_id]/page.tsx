@@ -7,7 +7,7 @@ import AddUserToClassModalContent from "@/components/modal/add-user-to-class-mod
 import BaseModal from "@/components/modal/base-modal";
 import { pages } from "@/helpers/pages";
 import { useAxios } from "@/hooks/use-axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -20,44 +20,48 @@ const ClassPage: NextPage = () => {
 
   const axios = useAxios();
 
-  const { isLoading, mutate: closeQuiz } = useMutation({
-    mutationFn: (id: number) => _closeQuiz(axios, id),
-    onSuccess: (id) => {
-      console.log(id);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const { mutate: removeQuiz } = useMutation({
-    mutationFn: (id: number) => _removeQuiz(axios, id),
-    onSuccess: (id) => {
-      console.log(id);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
   const classId = Number(params.class_id);
 
   const [addUserToClassModalOpen, setAddUserToClassModalOpen] =
     React.useState(false);
 
-  const { data: classData, refetch } = useQuery({
+  const { data: classData, refetch: refetchClass } = useQuery({
     queryKey: ["class"],
     queryFn: () => _getClass(axios, classId),
   });
 
-  const { data: quizData } = useQuery({
+  const { data: quizData, refetch: refetchQuizzes } = useQuery({
     queryKey: ["classQuizes"],
     queryFn: () => _getClassQuizzes(axios, classId),
+  });
+
+  const { mutate: closeQuiz } = useMutation({
+    mutationFn: (id: number) => _closeQuiz(axios, id),
+    onSuccess: (id) => {
+      console.log(id);
+      refetchQuizzes();
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const { mutateAsync: removeQuiz } = useMutation({
+    mutationFn: (id: number) => _removeQuiz(axios, id),
+    onSuccess: (id) => {
+      console.log(id);
+      refetchQuizzes();
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const students = classData?.usersDtos ?? [];
 
   const quizes = quizData ?? [];
+
+  const queryClient = useQueryClient();
 
   return classData ? (
     <div>
@@ -152,7 +156,7 @@ const ClassPage: NextPage = () => {
         content={
           <AddUserToClassModalContent
             onSuccess={() => {
-              refetch();
+              refetchClass();
               setAddUserToClassModalOpen(false);
               toast.success("Dodano ucznia do klasy");
             }}

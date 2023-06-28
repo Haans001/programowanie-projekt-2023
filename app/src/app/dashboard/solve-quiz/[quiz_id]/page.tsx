@@ -33,7 +33,8 @@ const ClassPage: NextPage = () => {
   const [score, setScore] = React.useState(0);
 
   const { mutate: publishScore, isLoading } = useMutation({
-    mutationFn: () => _publishScore(axios, quizId, score / totalQuestions),
+    mutationFn: (score: number) =>
+      _publishScore(axios, quizId, score / totalQuestions),
     onSuccess: () => {
       setSummaryModalOpen(true);
     },
@@ -42,14 +43,19 @@ const ClassPage: NextPage = () => {
   const [summaryModalOpen, setSummaryModalOpen] = React.useState(false);
 
   const handleNextQuestion = () => {
+    let newScore = score;
+
+    if (questions?.[currentQuestion].answersDtos[userAnswer].isCorrect) {
+      console.log("pierwszy if", newScore);
+      newScore = score + 1;
+    }
     if (currentQuestion + 1 < totalQuestions) {
       setCurrentQuestion(currentQuestion + 1);
-      if (questions?.[currentQuestion].answersDtos[userAnswer].isCorrect) {
-        setScore(score + 1);
-      }
     } else {
-      publishScore();
+      console.log(newScore);
+      publishScore(newScore);
     }
+    setScore(newScore);
   };
 
   const scorePercent = (score / totalQuestions) * 100 + "%";

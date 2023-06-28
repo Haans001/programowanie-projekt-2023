@@ -48,15 +48,11 @@ export const _getQuizQuestions = async (
 };
 
 export const _closeQuiz = async (axios: AxiosInstance, id: number) => {
-  const response = await axios.post(`/Quiz/${id}/close`, {
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-  });
+  const response = await axios.post(`/Quiz/${id}/close`);
   return response.data;
 };
 
 export const _removeQuiz = async (axios: AxiosInstance, id: number) => {
-  const response = await axios.delete(`/Quiz/${id}`, {
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-  });
+  const response = await axios.delete(`/Quiz/${id}`);
   return response.data;
 };
