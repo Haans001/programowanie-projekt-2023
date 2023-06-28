@@ -63,6 +63,7 @@ const ClassPage: NextPage = () => {
                   <Link href={pages.dashboard.scores.path + quiz.id}>
                     <Button variant="secondary">Wyniki</Button>
                   </Link>
+                  <Button variant="danger">Zamknij quiz</Button>
                 </div>
               </Card>
             ))}
