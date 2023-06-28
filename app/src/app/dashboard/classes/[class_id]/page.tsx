@@ -7,17 +7,28 @@ import AddUserToClassModalContent from "@/components/modal/add-user-to-class-mod
 import BaseModal from "@/components/modal/base-modal";
 import { pages } from "@/helpers/pages";
 import { useAxios } from "@/hooks/use-axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import * as React from "react";
 import { toast } from "react-toastify";
+import { _closeQuiz } from "@/api/quiz-api";
 
 const ClassPage: NextPage = () => {
   const params = useParams();
 
   const axios = useAxios();
+
+  const { isLoading, mutate: closeQuiz } = useMutation({
+    mutationFn: (id: number) => _closeQuiz(axios, id),
+    onSuccess: (id) => {
+      console.log(id);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const classId = Number(params.class_id);
 
@@ -56,14 +67,28 @@ const ClassPage: NextPage = () => {
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
             {quizes?.map((quiz) => (
               <Card title={quiz.name} key={quiz.id}>
+                {!quiz.isOpen && (
+                  <p className="font-medium text-red-500">
+                    Quiz jest zamknięty
+                  </p>
+                )}
                 <div className="flex gap-2">
-                  <Link href={pages.dashboard.solveQuiz.path + quiz.id}>
-                    <Button>Rozpocznij quiz</Button>
-                  </Link>
+                  {quiz.isOpen && (
+                    <Link href={pages.dashboard.solveQuiz.path + quiz.id}>
+                      <Button>Rozpocznij quiz</Button>
+                    </Link>
+                  )}
                   <Link href={pages.dashboard.scores.path + quiz.id}>
                     <Button variant="secondary">Wyniki</Button>
                   </Link>
-                  <Button variant="danger">Zamknij quiz</Button>
+                  {quiz.isOpen && (
+                    <Button
+                      onClick={() => closeQuiz(Number(quiz.id))}
+                      variant="danger"
+                    >
+                      Zamknij quiz
+                    </Button>
+                  )}
                 </div>
               </Card>
             ))}

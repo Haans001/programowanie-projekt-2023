@@ -46,3 +46,10 @@ export const _getQuizQuestions = async (
 
   return response.data;
 };
+
+export const _closeQuiz = async (axios: AxiosInstance, id: number) => {
+  const response = await axios.post(`/Quiz/${id}/close`, {
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+  });
+  return response.data;
+};
