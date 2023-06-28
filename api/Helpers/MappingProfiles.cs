@@ -49,7 +49,7 @@ public class MappingProfiles : Profile
         #endregion
 
         #region Score
-        CreateMap<Score, GetScoreDto>().ForMember(a=>a.User,src=>src.MapFrom(x=>x.User));
+        CreateMap<Score, GetScoreDto>().ForMember(a=>a.User,src=>src.MapFrom(x=>x.User)).ForMember(a=>a.QuizTitle,src=>src.MapFrom(x=>x.Quiz.Name));
         CreateMap<AddScoreDto, Score>();    
         #endregion
         #region Quiy

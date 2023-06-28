@@ -25,19 +25,19 @@ public class ScoreService : IScoreService
     
     public async Task<List<GetScoreDto>> ScoresAsync()
     {
-        var scores = await _context.Scores.Include(s=>s.User).ToListAsync();
+        var scores = await _context.Scores.Include(s=>s.User).Include(s=>s.Quiz).ToListAsync();
         return _mapper.Map<List<GetScoreDto>>(scores);
     }
 
     public async Task<List<GetScoreDto>> ScoresFromSpecificQuizAsync(int id)
     {
-        var scores = await _context.Scores.Include(s=>s.User).Where(s=>s.QuizId==id).ToListAsync();
+        var scores = await _context.Scores.Include(s=>s.User).Include(s=>s.Quiz).Where(s=>s.QuizId==id).ToListAsync();
         return _mapper.Map<List<GetScoreDto>>(scores);
     }
 
     public async Task<GetScoreDto> GetScoreByIdAsync(int id)
     {
-        var score = await _context.Scores.FirstOrDefaultAsync(x => x.Id == id);
+        var score = await _context.Scores.Include(s=>s.User).Include(s=>s.Quiz).FirstOrDefaultAsync(x => x.Id == id);
         if (score is null)
         {
             throw new NotFoundException("Wynik nie istnieje");
