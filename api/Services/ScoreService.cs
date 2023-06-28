@@ -47,8 +47,6 @@ public class ScoreService : IScoreService
     
     public async Task CreateScoreAsync(AddScoreDto addScoreDto)
     {
-        if(_context.Scores.Where(s=>s.QuizId==addScoreDto.QuizId).Any(s=>s.UserId==_userContextService.GetUserId))
-            throw new BadRequestException("Wynik już istnieje");
         var score = _mapper.Map<Score>(addScoreDto);
         score.UserId = _userContextService.GetUserId;
         score.DateOfCompletion = DateTime.Now.ToUniversalTime();
