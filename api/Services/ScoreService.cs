@@ -25,7 +25,13 @@ public class ScoreService : IScoreService
     
     public async Task<List<GetScoreDto>> ScoresAsync()
     {
-        var scores = await _context.Scores.ToListAsync();
+        var scores = await _context.Scores.Include(s=>s.User).ToListAsync();
+        return _mapper.Map<List<GetScoreDto>>(scores);
+    }
+
+    public async Task<List<GetScoreDto>> ScoresFromSpecificQuizAsync(int id)
+    {
+        var scores = await _context.Scores.Include(s=>s.User).Where(s=>s.QuizId==id).ToListAsync();
         return _mapper.Map<List<GetScoreDto>>(scores);
     }
 
@@ -41,6 +47,8 @@ public class ScoreService : IScoreService
     
     public async Task CreateScoreAsync(AddScoreDto addScoreDto)
     {
+        if(_context.Scores.Where(s=>s.QuizId==addScoreDto.QuizId).Any(s=>s.UserId==_userContextService.GetUserId))
+            throw new BadRequestException("Wynik już istnieje");
         var score = _mapper.Map<Score>(addScoreDto);
         score.UserId = _userContextService.GetUserId;
         score.DateOfCompletion = DateTime.Now.ToUniversalTime();

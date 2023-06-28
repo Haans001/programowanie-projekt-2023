@@ -21,6 +21,14 @@ public class ScoreController : ControllerBase
         var scores = await _scoreService.ScoresAsync();
         return Ok(scores);
     }
+    
+    [HttpGet("quiz/{id}")]
+    public async Task<ActionResult<List<GetScoreDto>>> ScoresFromQuizAsync(int id)
+    {
+        var scores = await _scoreService.ScoresFromSpecificQuizAsync(id);
+        return Ok(scores);
+    }
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<GetScoreDto>> GetScoreByIdAsync(int id)
     {

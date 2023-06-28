@@ -1,4 +1,6 @@
-﻿namespace api.Models.Dto.ScoreDto;
+﻿using api.Models.Dto.Account;
+
+namespace api.Models.Dto.ScoreDto;
 
 public class GetScoreDto
 {
@@ -7,4 +9,5 @@ public class GetScoreDto
     public decimal PercentOfCorrectAnswers { get; set; }
     public int QuizId { get; set; }
     public int UserId { get; set; }
+    public GetAccountDto User { get; set; }
 }
