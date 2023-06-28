@@ -56,9 +56,14 @@ const ClassPage: NextPage = () => {
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
             {quizes?.map((quiz) => (
               <Card title={quiz.name} key={quiz.id}>
-                <Link href={pages.dashboard.solveQuiz.path + quiz.id}>
-                  <Button>Rozpocznij quiz</Button>
-                </Link>
+                <div className="flex gap-2">
+                  <Link href={pages.dashboard.solveQuiz.path + quiz.id}>
+                    <Button>Rozpocznij quiz</Button>
+                  </Link>
+                  <Link href={pages.dashboard.scores.path + quiz.id}>
+                    <Button variant="secondary">Wyniki</Button>
+                  </Link>
+                </div>
               </Card>
             ))}
           </div>

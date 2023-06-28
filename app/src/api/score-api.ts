@@ -1,3 +1,4 @@
+import type { User } from "@/providers/auth-provider";
 import type { AxiosInstance } from "axios";
 
 export const _publishScore = async (
@@ -9,6 +10,24 @@ export const _publishScore = async (
     quizId,
     percentOfCorrectAnswers,
   });
+
+  return response.data;
+};
+
+export interface Score {
+  id: number;
+  dateOfCompletion: string;
+  percentOfCorrectAnswers: number;
+  quizId: number;
+  userId: number;
+  user: User;
+}
+
+export const _getQuizScores = async (
+  axios: AxiosInstance,
+  quizId: number
+): Promise<Score[]> => {
+  const response = await axios.get(`/Score/quiz/${quizId}`);
 
   return response.data;
 };
