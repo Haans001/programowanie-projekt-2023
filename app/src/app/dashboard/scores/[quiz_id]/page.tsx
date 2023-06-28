@@ -17,9 +17,11 @@ const ScoresPage: NextPage = () => {
     queryFn: () => _getQuizScores(axios, quizId),
   });
 
+  const quizTitle = scores?.[0]?.quizTitle ?? "";
+
   return (
     <div>
-      <h1 className="text-4xl font-bold">Wyniki dla: </h1>
+      <h1 className="text-4xl font-bold">Wyniki dla: {quizTitle}</h1>
       <table className="min-w-full divide-y divide-gray-200 mt-4">
         <thead className="bg-gray-50">
           <tr>

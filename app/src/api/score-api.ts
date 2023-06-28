@@ -18,6 +18,7 @@ export interface Score {
   id: number;
   dateOfCompletion: string;
   percentOfCorrectAnswers: number;
+  quizTitle: string;
   quizId: number;
   userId: number;
   user: User;

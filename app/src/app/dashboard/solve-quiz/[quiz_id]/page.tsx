@@ -33,8 +33,7 @@ const ClassPage: NextPage = () => {
   const [score, setScore] = React.useState(0);
 
   const { mutate: publishScore, isLoading } = useMutation({
-    mutationFn: () =>
-      _publishScore(axios, quizId, Math.round(score / totalQuestions)),
+    mutationFn: () => _publishScore(axios, quizId, score / totalQuestions),
     onSuccess: () => {
       setSummaryModalOpen(true);
     },
