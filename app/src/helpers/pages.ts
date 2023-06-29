@@ -19,7 +19,7 @@ const publicPages = {
 const dashboardPages = {
   home: {
     title: "Home",
-    path: "/dashboard/home",
+    path: "/dashboard/classes",
   },
   classes: {
     title: "Klasy",
