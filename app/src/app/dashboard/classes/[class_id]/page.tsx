@@ -14,10 +14,11 @@ import { useParams } from "next/navigation";
 import * as React from "react";
 import { toast } from "react-toastify";
 import { _closeQuiz, _removeQuiz } from "@/api/quiz-api";
+import { useAuth } from "@/providers/auth-provider";
 
 const ClassPage: NextPage = () => {
   const params = useParams();
-
+  const { user } = useAuth();
   const axios = useAxios();
 
   const classId = Number(params.class_id);
@@ -61,8 +62,6 @@ const ClassPage: NextPage = () => {
 
   const quizes = quizData ?? [];
 
-  const queryClient = useQueryClient();
-
   return classData ? (
     <div>
       <h1 className="text-4xl font-bold">
@@ -73,7 +72,7 @@ const ClassPage: NextPage = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold mt-8">Quizy</h2>
           <Link href={pages.dashboard.addQuiz.path + params.class_id}>
-            <Button className="mt-4">Dodaj Quiz</Button>
+            {user?.roleId == 1 && <Button className="mt-4">Dodaj Quiz</Button>}
           </Link>
         </div>
 
@@ -124,12 +123,14 @@ const ClassPage: NextPage = () => {
         )}
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold mt-8">Uczniowie</h1>
-          <Button
-            className="mt-4"
-            onClick={() => setAddUserToClassModalOpen(true)}
-          >
-            Dodaj Ucznia
-          </Button>
+          {user?.roleId == 1 && (
+            <Button
+              className="mt-4"
+              onClick={() => setAddUserToClassModalOpen(true)}
+            >
+              Dodaj Ucznia
+            </Button>
+          )}
         </div>
         <div className="mt-6">
           {students.length > 0 ? (

@@ -10,10 +10,12 @@ import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Link from "next/link";
 import * as React from "react";
+import { useAuth } from "@/providers/auth-provider";
 
 const ClassesPage: NextPage = () => {
   const [addClassModalOpen, setAddClassModalOpen] = React.useState(false);
 
+  const { user } = useAuth();
   const axios = useAxios();
 
   const { data, refetch } = useQuery({
@@ -39,14 +41,14 @@ const ClassesPage: NextPage = () => {
           open={addClassModalOpen}
           setOpen={setAddClassModalOpen}
         >
-          <Button>Dodaj klase</Button>
+          {user?.roleId == 1 && <Button>Dodaj klase</Button>}
         </BaseModal>
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
         {data?.map((c) => (
           <Card title={c.name} description={c.description} key={c.id}>
             <Link href={pages.dashboard.class.path + c.id}>
-              <Button>Edytuj</Button>
+              <Button>{user?.roleId == 2 ? "Wejdz" : "Edytuj"}</Button>
             </Link>
           </Card>
         ))}
