@@ -221,7 +221,7 @@ const ClassPage: NextPage = () => {
         </div>
 
         <div className="mt-6">
-          {students.length > 0 ? (
+          {students.filter((student) => student.roleId == 2).length > 0 ? (
             filteredStudentData.map((student) =>
               student.id !== classData.ownerId ? (
                 <div className="flex gap-4" key={student.id}>
