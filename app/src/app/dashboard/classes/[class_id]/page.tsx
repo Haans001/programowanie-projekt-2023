@@ -162,7 +162,7 @@ const ClassPage: NextPage = () => {
                   <Link href={pages.dashboard.scores.path + quiz.id}>
                     <Button variant="secondary">Wyniki</Button>
                   </Link>
-                  {quiz.isOpen && (
+                  {quiz.isOpen && user?.roleId == 1 && (
                     <Button
                       onClick={() => closeQuiz(Number(quiz.id))}
                       variant="danger"
@@ -170,7 +170,7 @@ const ClassPage: NextPage = () => {
                       Zamknij quiz
                     </Button>
                   )}
-                  {!quiz.isOpen && (
+                  {!quiz.isOpen && user?.roleId == 1 && (
                     <Button
                       onClick={() => removeQuiz(Number(quiz.id))}
                       variant="danger"
