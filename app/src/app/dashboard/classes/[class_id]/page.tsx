@@ -15,6 +15,7 @@ import * as React from "react";
 import { toast } from "react-toastify";
 import { _closeQuiz, _removeQuiz } from "@/api/quiz-api";
 import { useAuth } from "@/providers/auth-provider";
+import { BsSearch } from "react-icons/bs";
 
 const ClassPage: NextPage = () => {
   const params = useParams();
@@ -62,6 +63,54 @@ const ClassPage: NextPage = () => {
 
   const quizes = quizData ?? [];
 
+  const [searchQuizInput, setSearchQuizInput] = React.useState("");
+  const [filteredQuizData, setFilteredQuizData] = React.useState(quizes);
+
+  const [searchStudentInput, setSearchStudentInput] = React.useState("");
+  const [filteredStudentData, setFilteredStudentData] =
+    React.useState(students);
+
+  const handleSearchQuizInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuizInput(e.target.value);
+  };
+  const handleSearchStudentInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchStudentInput(e.target.value);
+  };
+
+  React.useEffect(() => {
+    const filteredQuizData = () => {
+      const filtered = searchQuizInput
+        ? quizes?.filter((item) =>
+            item.name.toLowerCase().includes(searchQuizInput.toLowerCase())
+          )
+        : quizes;
+      setFilteredQuizData(filtered);
+    };
+
+    filteredQuizData();
+  }, [quizes, searchQuizInput]);
+
+  console.log(students);
+
+  React.useEffect(() => {
+    const filteredStudentData = () => {
+      const filtered = searchStudentInput
+        ? students?.filter(
+            (item) =>
+              item.firstName
+                .toLowerCase()
+                .includes(searchStudentInput.toLowerCase()) ||
+              item.lastName
+                .toLowerCase()
+                .includes(searchStudentInput.toLowerCase())
+          )
+        : students;
+      setFilteredStudentData(filtered);
+    };
+
+    filteredStudentData();
+  }, [students, searchStudentInput]);
+
   return classData ? (
     <div>
       <h1 className="text-4xl font-bold">
@@ -76,9 +125,28 @@ const ClassPage: NextPage = () => {
           </Link>
         </div>
 
+        <div className=" w-1/4 pt-2 flex items-center">
+          <label htmlFor="searchClass" className="sr-only">
+            Search
+          </label>
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <BsSearch className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </div>
+            <input
+              type="text"
+              id="searchClass"
+              value={searchQuizInput}
+              className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg w-full pl-10 p-2 "
+              placeholder="Wyszukaj quiz"
+              onChange={handleSearchQuizInput}
+            />
+          </div>
+        </div>
+
         {quizes?.length > 0 ? (
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
-            {quizes?.map((quiz) => (
+            {filteredQuizData?.map((quiz) => (
               <Card title={quiz.name} key={quiz.id}>
                 {!quiz.isOpen && (
                   <p className="font-medium text-red-500">
@@ -132,9 +200,29 @@ const ClassPage: NextPage = () => {
             </Button>
           )}
         </div>
+
+        <div className=" w-1/4 pt-2 flex items-center">
+          <label htmlFor="searchClass" className="sr-only">
+            Search
+          </label>
+          <div className="relative w-full">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <BsSearch className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </div>
+            <input
+              type="text"
+              id="searchClass"
+              value={searchStudentInput}
+              className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg w-full pl-10 p-2 "
+              placeholder="Wyszukaj uczniów"
+              onChange={handleSearchStudentInput}
+            />
+          </div>
+        </div>
+
         <div className="mt-6">
           {students.length > 0 ? (
-            students.map((student) =>
+            filteredStudentData.map((student) =>
               student.id !== classData.ownerId ? (
                 <div className="flex gap-4" key={student.id}>
                   <p>{student.firstName + " " + student.lastName}</p>
