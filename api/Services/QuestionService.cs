@@ -71,7 +71,7 @@ public class QuestionService : IQuestionService
          answers.Add(new Answer(){Content = updateQuestionDto.Answer1,IsCorrect = updateQuestionDto.IsCorrect1});
          answers.Add(new Answer(){Content = updateQuestionDto.Answer2,IsCorrect = updateQuestionDto.IsCorrect2}); 
          answers.Add(new Answer(){Content = updateQuestionDto.Answer3,IsCorrect = updateQuestionDto.IsCorrect3});
-         answers.Add(new Answer(){Content = updateQuestionDto.Answer3,IsCorrect = updateQuestionDto.IsCorrect4});
+         answers.Add(new Answer(){Content = updateQuestionDto.Answer4,IsCorrect = updateQuestionDto.IsCorrect4});
          questionToUpdate.Answers = answers;
          _context.Questions.Update(questionToUpdate);
          await _context.SaveChangesAsync();

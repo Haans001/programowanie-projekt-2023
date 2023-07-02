@@ -1,10 +1,12 @@
 ﻿using api.Models.Dto.Class;
 using api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ClassController : ControllerBase
 {
     private readonly IClassService _classService;

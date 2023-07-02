@@ -1,11 +1,13 @@
 ﻿using api.Models.Dto.ScoreDto;
 using api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]  
+[Authorize]
 public class ScoreController : ControllerBase
 {
     private readonly IScoreService _scoreService;
@@ -42,6 +44,7 @@ public class ScoreController : ControllerBase
         return Ok();
     }
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Teacher")]
     public async Task<ActionResult> DeleteScoreAsync(int id)
     {
         await _scoreService.DeleteScoreAsync(id);
