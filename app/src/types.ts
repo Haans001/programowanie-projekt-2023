@@ -1,6 +1,6 @@
 export enum RoleEnum {
-  Student = "student",
-  Teacher = "teacher",
+  Teacher = 1,
+  Student = 2,
 }
 
 export interface IQuizzies {

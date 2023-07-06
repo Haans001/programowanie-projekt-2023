@@ -28,12 +28,12 @@ const RegisterPage: NextPage = () => {
       <h1 className="text-center text-3xl py-8">Rejestracja</h1>
       <Formik
         initialValues={{
-          firstName: "jan",
-          lastName: "ra",
-          email: "rapacz@gmail.com",
-          password: "jasiu123",
-          confirmPassword: "jasiu123",
-          role: RoleEnum.Student,
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          roleId: RoleEnum.Student,
         }}
         validationSchema={Yup.object().shape({
           firstName: Yup.string().required("Pole wymagane"),
@@ -102,8 +102,8 @@ const RegisterPage: NextPage = () => {
                   id="teacher"
                   type="radio"
                   value="teacher"
-                  onChange={() => setFieldValue("role", RoleEnum.Teacher)}
-                  checked={values.role === RoleEnum.Teacher}
+                  onChange={() => setFieldValue("roleId", RoleEnum.Teacher)}
+                  checked={values.roleId === RoleEnum.Teacher}
                   name="role"
                   className="peer hidden"
                 />
@@ -119,8 +119,8 @@ const RegisterPage: NextPage = () => {
                   id="student"
                   type="radio"
                   value="student"
-                  onChange={() => setFieldValue("role", RoleEnum.Student)}
-                  checked={values.role === RoleEnum.Student}
+                  onChange={() => setFieldValue("roleId", RoleEnum.Student)}
+                  checked={values.roleId === RoleEnum.Student}
                   name="role"
                   className="peer hidden"
                 />

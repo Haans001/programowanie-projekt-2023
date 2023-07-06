@@ -8,7 +8,7 @@ export interface SignupRequestBody {
   email: string;
   password: string;
   confirmPassword: string;
-  role: RoleEnum;
+  roleId: RoleEnum;
 }
 
 export const _register = async (data: SignupRequestBody) => {

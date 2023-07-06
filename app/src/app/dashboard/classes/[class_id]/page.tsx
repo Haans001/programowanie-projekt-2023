@@ -1,21 +1,20 @@
 "use client";
 import { _getClass } from "@/api/class-api";
-import { _getClassQuizzes } from "@/api/quiz-api";
+import { _closeQuiz, _getClassQuizzes, _removeQuiz } from "@/api/quiz-api";
 import Button from "@/components/button";
 import Card from "@/components/card";
 import AddUserToClassModalContent from "@/components/modal/add-user-to-class-modal-content";
 import BaseModal from "@/components/modal/base-modal";
 import { pages } from "@/helpers/pages";
 import { useAxios } from "@/hooks/use-axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/providers/auth-provider";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import * as React from "react";
-import { toast } from "react-toastify";
-import { _closeQuiz, _removeQuiz } from "@/api/quiz-api";
-import { useAuth } from "@/providers/auth-provider";
 import { BsSearch } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const ClassPage: NextPage = () => {
   const params = useParams();
@@ -35,12 +34,12 @@ const ClassPage: NextPage = () => {
   const { data: quizData, refetch: refetchQuizzes } = useQuery({
     queryKey: ["classQuizes"],
     queryFn: () => _getClassQuizzes(axios, classId),
+    refetchOnMount: true,
   });
 
   const { mutate: closeQuiz } = useMutation({
     mutationFn: (id: number) => _closeQuiz(axios, id),
-    onSuccess: (id) => {
-      console.log(id);
+    onSuccess: () => {
       refetchQuizzes();
     },
     onError: (error) => {
@@ -50,8 +49,7 @@ const ClassPage: NextPage = () => {
 
   const { mutateAsync: removeQuiz } = useMutation({
     mutationFn: (id: number) => _removeQuiz(axios, id),
-    onSuccess: (id) => {
-      console.log(id);
+    onSuccess: () => {
       refetchQuizzes();
     },
     onError: (error) => {
@@ -64,11 +62,8 @@ const ClassPage: NextPage = () => {
   const quizes = quizData ?? [];
 
   const [searchQuizInput, setSearchQuizInput] = React.useState("");
-  const [filteredQuizData, setFilteredQuizData] = React.useState(quizes);
 
   const [searchStudentInput, setSearchStudentInput] = React.useState("");
-  const [filteredStudentData, setFilteredStudentData] =
-    React.useState(students);
 
   const handleSearchQuizInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuizInput(e.target.value);
@@ -77,39 +72,21 @@ const ClassPage: NextPage = () => {
     setSearchStudentInput(e.target.value);
   };
 
-  React.useEffect(() => {
-    const filteredQuizData = () => {
-      const filtered = searchQuizInput
-        ? quizes?.filter((item) =>
-            item.name.toLowerCase().includes(searchQuizInput.toLowerCase())
-          )
-        : quizes;
-      setFilteredQuizData(filtered);
-    };
+  const filteredQuizes = searchQuizInput
+    ? quizes?.filter((item) =>
+        item.name.toLowerCase().includes(searchQuizInput.toLowerCase())
+      )
+    : quizes;
 
-    filteredQuizData();
-  }, [quizes, searchQuizInput]);
-
-  console.log(students);
-
-  React.useEffect(() => {
-    const filteredStudentData = () => {
-      const filtered = searchStudentInput
-        ? students?.filter(
-            (item) =>
-              item.firstName
-                .toLowerCase()
-                .includes(searchStudentInput.toLowerCase()) ||
-              item.lastName
-                .toLowerCase()
-                .includes(searchStudentInput.toLowerCase())
-          )
-        : students;
-      setFilteredStudentData(filtered);
-    };
-
-    filteredStudentData();
-  }, [students, searchStudentInput]);
+  const filteredStudents = searchStudentInput
+    ? students?.filter(
+        (item) =>
+          item.firstName
+            .toLowerCase()
+            .includes(searchStudentInput.toLowerCase()) ||
+          item.lastName.toLowerCase().includes(searchStudentInput.toLowerCase())
+      )
+    : students;
 
   return classData ? (
     <div>
@@ -146,7 +123,7 @@ const ClassPage: NextPage = () => {
 
         {quizes?.length > 0 ? (
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 gap-4">
-            {filteredQuizData?.map((quiz) => (
+            {filteredQuizes?.map((quiz) => (
               <Card title={quiz.name} key={quiz.id}>
                 {!quiz.isOpen && (
                   <p className="font-medium text-red-500">
@@ -222,7 +199,7 @@ const ClassPage: NextPage = () => {
 
         <div className="mt-6">
           {students.filter((student) => student.roleId == 2).length > 0 ? (
-            filteredStudentData.map((student) =>
+            filteredStudents.map((student) =>
               student.id !== classData.ownerId ? (
                 <div className="flex gap-4" key={student.id}>
                   <p>{student.firstName + " " + student.lastName}</p>
